@@ -1,0 +1,540 @@
+<title>Wedding Invite Questionnaire</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;1,400&family=Montserrat:wght@400;500;600&family=Allura&display=swap">
+<style>
+/* Layout: one narrow column of numbered sections, like filling in the printed card, ending in a copy-ready message. */
+:root{
+  --bg:#F5F1E6; --surface:#FFFDF8; --ink:#33392F; --muted:#6B7263; --line:#DDD5C1;
+  --sage:#5E7052; --sage-ink:#FFFDF8; --gold:#A88A4C; --error:#A2412F; --focus:#C8A96B;
+  --display:'Cormorant Garamond', Georgia, 'Times New Roman', serif;
+  --body:'Montserrat', 'Helvetica Neue', Arial, sans-serif;
+  --script:'Allura', 'Snell Roundhand', cursive;
+  --mono:ui-monospace, 'SF Mono', Menlo, Consolas, monospace;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#262E22; --surface:#303A2B; --ink:#EFEADC; --muted:#AEB39F; --line:#46523F;
+    --sage:#8FA27F; --sage-ink:#1E251B; --gold:#D8C094; --error:#E9907E; --focus:#D8C094;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#262E22; --surface:#303A2B; --ink:#EFEADC; --muted:#AEB39F; --line:#46523F;
+  --sage:#8FA27F; --sage-ink:#1E251B; --gold:#D8C094; --error:#E9907E; --focus:#D8C094;
+  color-scheme:dark;
+}
+*,*::before,*::after{box-sizing:border-box}
+body{
+  background:var(--bg);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.6;
+  padding-left:max(16px, env(safe-area-inset-left, 0px));
+  padding-right:max(16px, env(safe-area-inset-right, 0px));
+  padding-block:40px 80px;
+}
+.wrap{max-width:640px;margin:0 auto;display:flex;flex-direction:column;gap:28px}
+
+header{text-align:center;display:flex;flex-direction:column;gap:6px;align-items:center}
+.mark{width:64px;height:64px;color:var(--gold)}
+.kicker{font-family:var(--script);font-size:1.9rem;color:var(--gold);line-height:1}
+h1{font-family:var(--display);font-weight:600;font-size:clamp(2rem,7vw,2.6rem);line-height:1.15;margin:0;text-wrap:balance}
+.lede{color:var(--muted);max-width:52ch;margin:4px 0 0}
+
+fieldset{border:1px solid var(--line);background:var(--surface);border-radius:4px;margin:0;
+  padding:22px clamp(16px,4vw,28px) 26px;display:flex;flex-direction:column;gap:16px;min-width:0}
+legend{display:contents}
+.sec-head{display:flex;align-items:baseline;gap:12px;border-bottom:1px solid var(--line);padding-bottom:12px}
+.sec-num{font-family:var(--display);font-size:1.5rem;color:var(--gold);font-variant-numeric:tabular-nums}
+.sec-title{font-family:var(--display);font-weight:600;font-size:1.45rem;line-height:1.2}
+.sec-note{color:var(--muted);font-size:.86rem;margin:-6px 0 0}
+
+.row{display:grid;gap:14px;grid-template-columns:1fr 1fr}
+.row > *{min-width:0}
+@media (max-width:520px){ .row{grid-template-columns:1fr} }
+
+.field{display:flex;flex-direction:column;gap:6px;min-width:0}
+label,.label{font-size:.72rem;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.req{color:var(--gold)}
+.hint{font-size:.8rem;color:var(--muted)}
+input[type=text],input[type=tel],input[type=url],input[type=date],input[type=time],select,textarea{
+  width:100%;font:inherit;color:var(--ink);background:var(--bg);
+  border:1px solid var(--line);border-radius:3px;padding:10px 12px;min-height:44px}
+textarea{resize:vertical;min-height:88px}
+input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible,a:focus-visible{
+  outline:2px solid var(--focus);outline-offset:2px}
+[aria-invalid="true"]{border-color:var(--error)}
+.err{color:var(--error);font-size:.8rem}
+
+.choice{display:flex;flex-wrap:wrap;gap:8px}
+.choice label{display:flex;align-items:center;gap:8px;text-transform:none;letter-spacing:0;font-weight:500;
+  font-size:.9rem;color:var(--ink);border:1px solid var(--line);border-radius:3px;padding:9px 14px;cursor:pointer;background:var(--bg)}
+.choice input{accent-color:var(--sage);margin:0}
+.check{display:flex;align-items:center;gap:8px;font-size:.9rem;color:var(--ink);text-transform:none;letter-spacing:0;font-weight:500}
+.check input{accent-color:var(--sage);width:18px;height:18px;margin:0}
+
+.item{border-left:2px solid var(--gold);padding:4px 0 4px 16px;display:flex;flex-direction:column;gap:14px}
+.item-head{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.item-title{font-family:var(--display);font-weight:600;font-size:1.15rem}
+.sched-row{display:grid;grid-template-columns:120px 1fr 1fr auto;gap:10px;align-items:end}
+.sched-row > *{min-width:0}
+@media (max-width:520px){
+  .sched-row{grid-template-columns:1fr 1fr;border-left:2px solid var(--gold);padding-left:12px}
+  .sched-row .field:nth-child(2){grid-column:1 / -1;order:-1}
+}
+
+button{font:inherit;cursor:pointer}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:10px 20px;
+  border-radius:3px;font-size:.78rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;text-decoration:none}
+.btn-primary{background:var(--sage);color:var(--sage-ink);border:1px solid var(--sage)}
+.btn-ghost{background:transparent;color:var(--ink);border:1px solid var(--line)}
+.btn-link{background:none;border:0;color:var(--muted);font-size:.78rem;text-decoration:underline;padding:6px;min-height:0}
+.actions{display:flex;flex-wrap:wrap;gap:10px}
+
+.submit-bar{display:flex;flex-direction:column;gap:10px;align-items:center;text-align:center}
+.submit-bar .btn{width:100%;max-width:360px;font-size:.85rem}
+.saved{font-size:.8rem;color:var(--muted)}
+
+#result{display:flex;flex-direction:column;gap:16px}
+#result h2{font-family:var(--display);font-weight:600;font-size:1.6rem;margin:0}
+#result pre{margin:0;background:var(--bg);border:1px solid var(--line);border-radius:3px;padding:14px;
+  font-family:var(--mono);font-size:.78rem;line-height:1.55;white-space:pre-wrap;word-break:break-word;max-height:420px;overflow:auto}
+.status{font-size:.85rem;color:var(--sage);min-height:1.4em}
+.steps{margin:0;padding-left:1.2em;color:var(--muted);font-size:.9rem}
+
+@media (prefers-reduced-motion: no-preference){ html{scroll-behavior:smooth} }
+</style>
+
+<div class="wrap">
+  <header>
+    <svg class="mark" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="1" aria-hidden="true">
+      <path d="M32 4 44 16 56 32 44 48 32 60 20 48 8 32 20 16Z"/><path d="M32 14 41 23 50 32 41 41 32 50 23 41 14 32 23 23Z" opacity=".55"/><circle cx="32" cy="32" r="4"/>
+    </svg>
+    <span class="kicker">your invitation</span>
+    <h1>Tell us about your wedding</h1>
+    <p class="lede">We'll use these details to make your animated wedding invitation. It takes about 10 minutes. Fields marked <span class="req">*</span> are required. Your answers are saved in this browser as you type, so you can come back later.</p>
+  </header>
+
+  <form id="form" novalidate>
+
+    <fieldset>
+      <legend><span class="sec-head"><span class="sec-num">1</span><span class="sec-title">About you</span></span></legend>
+      <p class="sec-note">So we know who to contact about the invitation.</p>
+      <div class="row">
+        <div class="field"><label for="contactName">Your name <span class="req">*</span></label><input type="text" id="contactName" autocomplete="name" required></div>
+        <div class="field"><label for="contactPhone">WhatsApp or phone <span class="req">*</span></label><input type="tel" id="contactPhone" autocomplete="tel" required></div>
+      </div>
+      <div class="field">
+        <span class="label">You are</span>
+        <div class="choice" role="radiogroup">
+          <label><input type="radio" name="relation" value="Groom" checked> The groom</label>
+          <label><input type="radio" name="relation" value="Bride"> The bride</label>
+          <label><input type="radio" name="relation" value="Family member"> Family</label>
+          <label><input type="radio" name="relation" value="Friend / planner"> Friend or planner</label>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="sec-head"><span class="sec-num">2</span><span class="sec-title">The couple</span></span></legend>
+      <p class="sec-note">Names appear exactly as you type them. The first letters become the monogram on the wax seal.</p>
+      <div class="row">
+        <div class="field"><label for="groom">Groom's first name <span class="req">*</span></label><input type="text" id="groom" placeholder="e.g. Zayan" required></div>
+        <div class="field"><label for="bride">Bride's first name <span class="req">*</span></label><input type="text" id="bride" placeholder="e.g. Mariam" required></div>
+      </div>
+      <div class="field"><label for="groomParents">Line under the groom's name</label><input type="text" id="groomParents" placeholder="e.g. S/o. Mr. Ahmed Khan"><span class="hint">Usually "Son of" and the parents' names. Leave blank to skip.</span></div>
+      <div class="field"><label for="brideParents">Line under the bride's name</label><input type="text" id="brideParents" placeholder="e.g. D/o. Mr. Yusuf Shaikh of Pune"></div>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="sec-head"><span class="sec-num">3</span><span class="sec-title">Date</span></span></legend>
+      <p class="sec-note">The main wedding day. The countdown counts down to the start time of your first event.</p>
+      <div class="row">
+        <div class="field"><label for="date">Wedding date <span class="req">*</span></label><input type="date" id="date" required></div>
+        <div class="field"><label for="timeZone">Time zone</label>
+          <select id="timeZone">
+            <option value="Asia/Kolkata">India (IST)</option>
+            <option value="Asia/Karachi">Pakistan (PKT)</option>
+            <option value="Asia/Dhaka">Bangladesh (BST)</option>
+            <option value="Asia/Dubai">UAE (GST)</option>
+            <option value="Asia/Riyadh">Saudi Arabia (AST)</option>
+            <option value="Asia/Qatar">Qatar (AST)</option>
+            <option value="Europe/London">UK</option>
+            <option value="America/New_York">US Eastern</option>
+            <option value="America/Chicago">US Central</option>
+            <option value="America/Los_Angeles">US Pacific</option>
+            <option value="America/Toronto">Canada Eastern</option>
+            <option value="Australia/Sydney">Australia Eastern</option>
+          </select>
+        </div>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="sec-head"><span class="sec-num">4</span><span class="sec-title">Events</span></span></legend>
+      <p class="sec-note">Each event gets its own page section and a venue card with a map button.</p>
+      <div id="events" style="display:flex;flex-direction:column;gap:26px"></div>
+      <div class="actions"><button type="button" class="btn btn-ghost" id="addEvent">+ Add an event</button></div>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="sec-head"><span class="sec-num">5</span><span class="sec-title">Schedule of the day</span></span></legend>
+      <p class="sec-note">The timeline guests scroll through. List the moments in order.</p>
+      <div id="schedule" style="display:flex;flex-direction:column;gap:14px"></div>
+      <div class="actions">
+        <button type="button" class="btn btn-ghost" id="addSched">+ Add a moment</button>
+        <button type="button" class="btn btn-ghost" id="fillSched">Copy from events</button>
+      </div>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="sec-head"><span class="sec-num">6</span><span class="sec-title">Words on the invitation</span></span></legend>
+      <div class="field">
+        <span class="label">Opening blessing and closing dua in Arabic</span>
+        <div class="choice" role="radiogroup">
+          <label><input type="radio" name="arabic" value="yes" checked> Include (Bismillah and Barakallah dua)</label>
+          <label><input type="radio" name="arabic" value="no"> Leave out</label>
+        </div>
+      </div>
+      <div class="field"><label for="inviteMsg">Invitation message</label>
+        <textarea id="inviteMsg" rows="3">With the blessings of Allah and our families,
+we request the pleasure of your presence
+as we begin this beautiful journey together.</textarea>
+        <span class="hint">Each line shows on its own line. Edit freely.</span></div>
+      <div class="field"><label for="tagline">Short line for the "Our special day" section</label><input type="text" id="tagline" value="Two hearts. Two families. One beautiful beginning."></div>
+      <div class="field"><label for="compliments">"With best compliments from"</label>
+        <textarea id="compliments" rows="2" placeholder="e.g. Khan &amp; Shaikh Families,&#10;Relatives and Friends"></textarea></div>
+      <div class="field"><label for="closingMsg">Closing message</label>
+        <textarea id="closingMsg" rows="2">Your presence and prayers
+would mean the world to us.</textarea></div>
+    </fieldset>
+
+    <fieldset>
+      <legend><span class="sec-head"><span class="sec-num">7</span><span class="sec-title">Music and look</span></span></legend>
+      <div class="field">
+        <span class="label">Background music</span>
+        <div class="choice" role="radiogroup">
+          <label><input type="radio" name="music" value="yes" checked> Play a song when the envelope opens</label>
+          <label><input type="radio" name="music" value="no"> No music</label>
+        </div>
+      </div>
+      <div class="field" id="songField"><label for="song">Song name or link</label><input type="text" id="song" placeholder="e.g. a YouTube link, or the song and artist"><span class="hint">Guests can mute it at any time.</span></div>
+      <div class="field">
+        <span class="label">Colours</span>
+        <div class="choice" role="radiogroup">
+          <label><input type="radio" name="palette" value="Sage green, gold and ivory (as in the sample)" checked> Sage, gold and ivory</label>
+          <label><input type="radio" name="palette" value="other"> Something else</label>
+        </div>
+      </div>
+      <div class="field" id="paletteField" hidden><label for="paletteOther">Describe the colours you'd like</label><input type="text" id="paletteOther" placeholder="e.g. match our card: maroon and gold"></div>
+      <div class="field"><label for="webAddress">Web address you'd like (optional)</label><input type="text" id="webAddress" placeholder="e.g. zayanmariam.com"><span class="hint">We'll check if it's available.</span></div>
+      <div class="field"><label for="notes">Anything else?</label><textarea id="notes" rows="3" placeholder="Spelling to double-check, dress code, extra sections, deadline…"></textarea></div>
+    </fieldset>
+
+    <div class="submit-bar">
+      <p class="err" id="formErr" hidden></p>
+      <button type="submit" class="btn btn-primary">Review and send my answers</button>
+      <span class="saved" id="saved">Draft saved in this browser</span>
+      <button type="button" class="btn-link" id="clearDraft">Clear all answers</button>
+      <span class="saved" id="clearConfirm" hidden>Tap "Clear all answers" again to confirm.</span>
+    </div>
+  </form>
+
+  <fieldset id="resultBox" hidden>
+    <legend><span class="sec-head"><span class="sec-num">✓</span><span class="sec-title">Send this to us</span></span></legend>
+    <div id="result">
+      <ol class="steps">
+        <li>Tap <b>Copy message</b> below.</li>
+        <li>Paste it into WhatsApp or email to the person who sent you this form.</li>
+      </ol>
+      <div class="actions">
+        <button type="button" class="btn btn-primary" id="copyBtn">Copy message</button>
+        <a class="btn btn-ghost" id="waBtn" href="#" target="_blank" rel="noopener">Open WhatsApp</a>
+        <button type="button" class="btn btn-ghost" id="editBtn">Edit answers</button>
+      </div>
+      <p class="status" id="copyStatus" role="status"></p>
+      <pre id="output" tabindex="0"></pre>
+    </div>
+  </fieldset>
+</div>
+
+<datalist id="eventTitles"><option value="Nikah"><option value="Reception"><option value="Walima"><option value="Mehndi"><option value="Haldi"><option value="Sangeet"><option value="Engagement"></datalist>
+<datalist id="eventPills"><option value="In Sha Allah"><option value="Dawat‑e‑Valima"><option value="Pre‑wedding"><option value="Celebration"></datalist>
+
+<script>
+(function(){
+  const $ = s => document.querySelector(s);
+  const KEY = 'wedding-questionnaire-draft-v1';
+  const form = $('#form');
+  let eventSeq = 0, schedSeq = 0;
+
+  /* ---------- repeatable rows ---------- */
+  function eventHTML(id, e){
+    e = e || {};
+    const v = k => esc(e[k] || '');
+    return '<div class="item" data-event="' + id + '">' +
+      '<div class="item-head"><span class="item-title">Event</span>' +
+      '<button type="button" class="btn-link" data-remove>Remove</button></div>' +
+      '<div class="row">' +
+        field('ev-title-' + id, 'Event name <span class="req">*</span>', '<input type="text" id="ev-title-' + id + '" list="eventTitles" placeholder="e.g. Nikah" value="' + v('title') + '" required>') +
+        field('ev-pill-' + id, 'Small label above it', '<input type="text" id="ev-pill-' + id + '" list="eventPills" placeholder="e.g. In Sha Allah" value="' + v('pill') + '">') +
+      '</div><div class="row">' +
+        field('ev-time-' + id, 'Start time <span class="req">*</span>', '<input type="time" id="ev-time-' + id + '" value="' + v('time') + '" required>') +
+        '<div class="field"><span class="label">&nbsp;</span><label class="check"><input type="checkbox" id="ev-onwards-' + id + '"' + (e.onwards ? ' checked' : '') + '> Show as "onwards"</label></div>' +
+      '</div>' +
+      field('ev-when-' + id, 'Different day? (optional)', '<input type="text" id="ev-when-' + id + '" placeholder="Leave blank if it is on the wedding date" value="' + v('when') + '">') +
+      field('ev-venue-' + id, 'Venue name <span class="req">*</span>', '<input type="text" id="ev-venue-' + id + '" placeholder="e.g. Al-Noor Masjid" value="' + v('venue') + '" required>') +
+      field('ev-address-' + id, 'Venue address <span class="req">*</span>', '<input type="text" id="ev-address-' + id + '" placeholder="Area, City" value="' + v('address') + '" required>') +
+      field('ev-map-' + id, 'Google Maps link (optional)', '<input type="url" id="ev-map-' + id + '" placeholder="Paste the Share link from Google Maps" value="' + v('map') + '">') +
+      '<div class="field"><span class="label">Drawing</span><div class="choice">' +
+        '<label><input type="radio" name="ev-art-' + id + '" value="mosque"' + (e.art !== 'pavilion' ? ' checked' : '') + '> Mosque</label>' +
+        '<label><input type="radio" name="ev-art-' + id + '" value="pavilion"' + (e.art === 'pavilion' ? ' checked' : '') + '> Hall or pavilion</label>' +
+      '</div></div></div>';
+  }
+  function schedHTML(id, s){
+    s = s || {};
+    return '<div class="sched-row" data-sched="' + id + '">' +
+      field('sc-time-' + id, 'Time', '<input type="time" id="sc-time-' + id + '" value="' + esc(s.time || '') + '">') +
+      field('sc-what-' + id, 'What happens', '<input type="text" id="sc-what-' + id + '" placeholder="e.g. Nikah ceremony" value="' + esc(s.what || '') + '">') +
+      field('sc-where-' + id, 'Where / note', '<input type="text" id="sc-where-' + id + '" placeholder="e.g. Al-Noor Masjid" value="' + esc(s.where || '') + '">') +
+      '<button type="button" class="btn-link" data-remove aria-label="Remove this moment">Remove</button></div>';
+  }
+  function field(id, label, control){
+    return '<div class="field"><label for="' + id + '">' + label + '</label>' + control + '</div>';
+  }
+  function esc(s){ return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c])); }
+
+  function addEvent(e){ $('#events').insertAdjacentHTML('beforeend', eventHTML(++eventSeq, e)); renumber(); }
+  function addSched(s){ $('#schedule').insertAdjacentHTML('beforeend', schedHTML(++schedSeq, s)); }
+  function renumber(){
+    const items = document.querySelectorAll('[data-event]');
+    items.forEach((el, i) => {
+      el.querySelector('.item-title').textContent = 'Event ' + (i + 1);
+      el.querySelector('[data-remove]').hidden = items.length === 1;
+    });
+  }
+
+  document.addEventListener('click', e => {
+    const rm = e.target.closest('[data-remove]');
+    if (!rm) return;
+    rm.closest('[data-event], [data-sched]').remove();
+    renumber(); save();
+  });
+  $('#addEvent').addEventListener('click', () => { addEvent(); save(); });
+  $('#addSched').addEventListener('click', () => { addSched(); save(); });
+  $('#fillSched').addEventListener('click', () => {
+    readEvents().forEach(ev => addSched({ time: ev.time, what: ev.title, where: ev.venue }));
+    save();
+  });
+
+  /* ---------- reading answers ---------- */
+  const val = id => ($('#' + id) ? $('#' + id).value.trim() : '');
+  const radio = name => (form.querySelector('input[name="' + name + '"]:checked') || {}).value || '';
+
+  function readEvents(){
+    return [...document.querySelectorAll('[data-event]')].map(el => {
+      const id = el.dataset.event;
+      return {
+        title: val('ev-title-' + id), pill: val('ev-pill-' + id), time: val('ev-time-' + id),
+        onwards: $('#ev-onwards-' + id).checked, when: val('ev-when-' + id),
+        venue: val('ev-venue-' + id), address: val('ev-address-' + id), map: val('ev-map-' + id),
+        art: radio('ev-art-' + id) || 'mosque'
+      };
+    });
+  }
+  function readSched(){
+    return [...document.querySelectorAll('[data-sched]')].map(el => {
+      const id = el.dataset.sched;
+      return { time: val('sc-time-' + id), what: val('sc-what-' + id), where: val('sc-where-' + id) };
+    }).filter(s => s.time || s.what || s.where);
+  }
+  const STATIC_IDS = ['contactName','contactPhone','groom','bride','groomParents','brideParents','date','timeZone',
+    'inviteMsg','tagline','compliments','closingMsg','song','paletteOther','webAddress','notes'];
+  function readAll(){
+    const a = {};
+    STATIC_IDS.forEach(id => { a[id] = val(id); });
+    ['relation','arabic','music','palette'].forEach(n => { a[n] = radio(n); });
+    a.events = readEvents();
+    a.schedule = readSched();
+    return a;
+  }
+
+  /* ---------- draft in this browser ---------- */
+  let saveTimer;
+  function save(){
+    clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => {
+      try { localStorage.setItem(KEY, JSON.stringify(readAll())); $('#saved').hidden = false; } catch (e) { $('#saved').hidden = true; }
+    }, 300);
+  }
+  function load(){
+    let a = null;
+    try { a = JSON.parse(localStorage.getItem(KEY) || 'null'); } catch (e) {}
+    if (!a) {
+      addEvent({ title: 'Nikah', pill: 'In Sha Allah', art: 'mosque' });
+      addEvent({ title: 'Reception', pill: 'Dawat‑e‑Valima', art: 'pavilion', onwards: true });
+      addSched(); addSched();
+      return;
+    }
+    STATIC_IDS.forEach(id => { if (a[id] != null && $('#' + id)) $('#' + id).value = a[id]; });
+    ['relation','arabic','music','palette'].forEach(n => {
+      const r = form.querySelector('input[name="' + n + '"][value="' + CSS.escape(a[n] || '') + '"]');
+      if (r) r.checked = true;
+    });
+    (a.events && a.events.length ? a.events : [{}]).forEach(addEvent);
+    (a.schedule && a.schedule.length ? a.schedule : [{}, {}]).forEach(addSched);
+  }
+  form.addEventListener('input', save);
+  form.addEventListener('change', () => { syncToggles(); save(); });
+
+  let clearArmed = false;
+  $('#clearDraft').addEventListener('click', () => {
+    if (!clearArmed) { clearArmed = true; $('#clearConfirm').hidden = false; setTimeout(() => { clearArmed = false; $('#clearConfirm').hidden = true; }, 4000); return; }
+    try { localStorage.removeItem(KEY); } catch (e) {}
+    form.reset();
+    $('#events').innerHTML = ''; $('#schedule').innerHTML = '';
+    clearArmed = false; $('#clearConfirm').hidden = true;
+    load(); syncToggles();
+    $('#resultBox').hidden = true;
+  });
+
+  function syncToggles(){
+    $('#songField').hidden = radio('music') !== 'yes';
+    $('#paletteField').hidden = radio('palette') !== 'other';
+  }
+
+  /* ---------- building the message ---------- */
+  function to12h(t){
+    if (!t) return '';
+    let [h, m] = t.split(':').map(Number);
+    const ap = h >= 12 ? 'PM' : 'AM';
+    h = h % 12 || 12;
+    return h + ':' + String(m).padStart(2, '0') + ' ' + ap;
+  }
+  // offset of an IANA zone at a given local date-time, as "+05:30"
+  function zoneOffset(date, time, tz){
+    const [y, mo, d] = date.split('-').map(Number), [h, mi] = (time || '00:00').split(':').map(Number);
+    const guess = Date.UTC(y, mo - 1, d, h, mi);
+    const p = {};
+    new Intl.DateTimeFormat('en-US', { timeZone: tz, hourCycle: 'h23', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' })
+      .formatToParts(new Date(guess)).forEach(x => { p[x.type] = x.value; });
+    const asLocal = Date.UTC(+p.year, +p.month - 1, +p.day, +p.hour % 24, +p.minute);
+    const mins = Math.round((asLocal - guess) / 60000), sign = mins < 0 ? '-' : '+', abs = Math.abs(mins);
+    return sign + String(Math.floor(abs / 60)).padStart(2, '0') + ':' + String(abs % 60).padStart(2, '0');
+  }
+  function prettyDate(date){
+    const [y, m, d] = date.split('-').map(Number);
+    return new Date(Date.UTC(y, m - 1, d)).toLocaleDateString('en-GB', { timeZone: 'UTC', weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+  }
+
+  function buildConfig(a){
+    const first = a.events[0] || {};
+    const start = first.time || '00:00';
+    const yes = a.arabic === 'yes';
+    return {
+      groom: a.groom, bride: a.bride,
+      groomParents: a.groomParents, brideParents: a.brideParents,
+      date: a.date + 'T' + start + ':00' + zoneOffset(a.date, start, a.timeZone),
+      timeZone: a.timeZone,
+      blessingAr: yes ? 'بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ' : '',
+      blessingEn: yes ? 'In the name of Allah, the Most Gracious, the Most Merciful' : '',
+      inviteLines: a.inviteMsg.split('\n').map(s => s.trim()).filter(Boolean),
+      countdownEyebrow: yes ? 'In Sha Allah' : 'Save the Date',
+      tagline: a.tagline,
+      events: a.events.map(e => {
+        const o = { pill: e.pill, title: e.title, art: e.art, time: to12h(e.time) + (e.onwards ? ' onwards' : ''),
+                    venue: e.venue, address: e.address, map: e.map };
+        if (e.when) o.when = e.when;
+        return o;
+      }),
+      schedule: a.schedule.map(s => ({ time: to12h(s.time), what: s.what, where: s.where })),
+      compliments: a.compliments,
+      closingMsg: a.closingMsg,
+      duaAr: yes ? 'بارك الله لكما وبارك عليكما وجمع بينكما في خير' : '',
+      duaEn: yes ? 'May Allah bless you both, shower His blessings upon you,\nand unite you in goodness.' : '',
+      music: a.music === 'yes' ? 'song.mp3' : ''
+    };
+  }
+
+  function buildMessage(a){
+    const L = [];
+    const line = (k, v) => { if (v) L.push(k + ': ' + v); };
+    L.push('WEDDING INVITATION DETAILS', a.groom + ' & ' + a.bride, '');
+    L.push('— From —'); line('Name', a.contactName); line('Phone', a.contactPhone); line('Relation', a.relation); L.push('');
+    L.push('— Couple —'); line('Groom', a.groom); line('Under groom', a.groomParents); line('Bride', a.bride); line('Under bride', a.brideParents); L.push('');
+    L.push('— Date —'); line('Wedding date', prettyDate(a.date)); line('Time zone', a.timeZone); L.push('');
+    a.events.forEach((e, i) => {
+      L.push('— Event ' + (i + 1) + ': ' + e.title + ' —');
+      line('Label', e.pill); line('Day', e.when || 'Wedding date');
+      line('Time', to12h(e.time) + (e.onwards ? ' onwards' : ''));
+      line('Venue', e.venue); line('Address', e.address); line('Map', e.map); line('Drawing', e.art);
+      L.push('');
+    });
+    if (a.schedule.length) {
+      L.push('— Schedule —');
+      a.schedule.forEach(s => L.push([to12h(s.time), s.what, s.where].filter(Boolean).join(' · ')));
+      L.push('');
+    }
+    L.push('— Words —'); line('Arabic blessing & dua', a.arabic === 'yes' ? 'Include' : 'Leave out');
+    line('Invitation message', a.inviteMsg.replace(/\n/g, ' / ')); line('Tagline', a.tagline);
+    line('Compliments from', a.compliments.replace(/\n/g, ' / ')); line('Closing message', a.closingMsg.replace(/\n/g, ' / '));
+    L.push('');
+    L.push('— Music & look —'); line('Music', a.music === 'yes' ? (a.song || 'Yes, song not chosen yet') : 'No music');
+    line('Colours', a.palette === 'other' ? a.paletteOther || 'Something else (not described)' : a.palette);
+    line('Web address', a.webAddress); line('Notes', a.notes);
+    L.push('', '— For the designer: paste as CONFIG —');
+    L.push('const CONFIG = ' + JSON.stringify(buildConfig(a), null, 2) + ';');
+    return L.join('\n');
+  }
+
+  /* ---------- validation + submit ---------- */
+  function validate(){
+    let firstBad = null;
+    form.querySelectorAll('.err.inline').forEach(n => n.remove());
+    form.querySelectorAll('[aria-invalid]').forEach(n => n.removeAttribute('aria-invalid'));
+    form.querySelectorAll('[required]').forEach(input => {
+      if (input.value.trim()) return;
+      input.setAttribute('aria-invalid', 'true');
+      const msg = document.createElement('span');
+      msg.className = 'err inline';
+      msg.textContent = 'Please fill this in.';
+      input.closest('.field').appendChild(msg);
+      firstBad = firstBad || input;
+    });
+    return firstBad;
+  }
+
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    const bad = validate();
+    if (bad) {
+      $('#formErr').textContent = 'A few required answers are missing. They are marked in red above.';
+      $('#formErr').hidden = false;
+      bad.focus();
+      return;
+    }
+    $('#formErr').hidden = true;
+    const text = buildMessage(readAll());
+    $('#output').textContent = text;
+    $('#waBtn').href = 'https://wa.me/?text=' + encodeURIComponent(text);
+    $('#copyStatus').textContent = '';
+    $('#resultBox').hidden = false;
+    $('#resultBox').scrollIntoView({ block: 'start' });
+  });
+
+  $('#copyBtn').addEventListener('click', () => {
+    const text = $('#output').textContent;
+    const fallback = () => {
+      const r = document.createRange(); r.selectNodeContents($('#output'));
+      const s = getSelection(); s.removeAllRanges(); s.addRange(r);
+      $('#copyStatus').textContent = 'The message is selected. Use your device\'s Copy to copy it.';
+    };
+    try {
+      navigator.clipboard.writeText(text)
+        .then(() => { $('#copyStatus').textContent = 'Copied. Now paste it into WhatsApp or email.'; })
+        .catch(fallback);
+    } catch (err) { fallback(); }
+  });
+  $('#editBtn').addEventListener('click', () => { $('#resultBox').hidden = true; form.scrollIntoView({ block: 'start' }); });
+
+  load();
+  syncToggles();
+})();
+</script>
