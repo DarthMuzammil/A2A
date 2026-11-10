@@ -1,0 +1,31 @@
+\section{Introduction}
+
+A recent technical report, \emph{Entropy-Continuum Mechanics for Video}~\cite{garlapati2026ecm} (the \emph{base paper} below), treats the information in a video as a material that moves with the scene.
+It draws two tools from that picture.
+The first is a training-free \emph{permanence violation score} (PVS) that looks for information created away from occlusion boundaries.
+The second is \emph{frame-shared generation}: in a video diffusion transformer, the tokens of a static background are computed in one leader frame and copied to the others, with a log-multiplicity attention bias (proportional attention~\cite{bolya2023tome}) standing in for the removed tokens.
+The report is candid about its scale and its failures, and it ends on an open question: sharing forces the copies of a static token to start from the same noise, this ``yields a different sample'', and ``whether the shared-noise sample is as good is untested''.
+
+This follow-up does two things.
+
+\paragraph{Errata (\S\ref{sec:errata}).}
+We list 17 errors, evaluation flaws and gaps in the base paper and verify most of them numerically.
+The most consequential one concerns the headline result of frame sharing.
+Its fidelity of 41.5--43.8\,dB is measured against full compute from noise that the method has already modified, while every baseline it is compared with is measured against the original output.
+Against the original output the base paper's own number is 11--15\,dB, below every baseline in its table.
+
+\paragraph{An answer to the open question (\S\ref{sec:theory}--\ref{sec:trained}).}
+Copying one frame's noise to $F$ frames is not a neutral way to make tokens identical.
+The $F$ copies of a static token are $F$ noisy measurements of one quantity, and the network has learned to pool them.
+The pooled measurement is their \emph{mean}, whose noise is $\sqrt F$ times weaker than that of any single copy: static tokens are colder.
+Handing the network one copy while telling it, through proportional attention, that it holds $F$ of them makes it over-confident by $\sqrt F$.
+We show:
+\begin{itemize}[leftmargin=1.2em,itemsep=1pt,topsep=2pt]
+\item \textbf{Theory.} For an ideal denoiser and a static region, replacing the copies by their frame mean leaves the generated sample \emph{exactly} unchanged, at the start or at any later step (Theorem~\ref{thm:mean}). Replacing them by one copy runs the sampler with noise $\sqrt F$ too strong; for Gaussian content the output variance is inflated by exactly $F$ (Theorem~\ref{thm:copy}).
+\item \textbf{Network-free checks.} In an exactly solvable Gaussian model the law holds to three digits. With an exact nonlinear denoiser, copying returns the original clip in $\IdealCopySame\,\%$ of runs and averaging in $\IdealMeanSame$--$\IdealMeanSixSame\,\%$.
+\item \textbf{A trained transformer.} Copying over-disperses backgrounds $\ACopyStd\times$ and lands $\ACopyOrig$\,dB from the original sample; averaging removes the over-dispersion and reaches $\AMeanOrig$\,dB.
+\item \textbf{What does not work.} On a network trained in the standard way, averaging is not sample-preserving either: tied tokens are outside its training distribution and it answers with $\AMeanTex\times$ too much texture. On an equal footing, frame sharing then loses to simply taking fewer steps, with either way of tying. The base paper's central comparison does not survive.
+\item \textbf{What makes it work.} The ideal denoiser ignores the per-frame deviations; a trained one does not. A 3k-step fine-tune with a regulariser that penalises this dependence (Eq.~\ref{eq:reg}) makes mean-tied sharing reproduce the original sample at $\BMeanDraftOrig$\,dB with $\BDraftSpeedup\times$ fewer FLOPs using the base paper's 2-step draft map, and at $\BMeanOrig$\,dB with $\BOracleSpeedup\times$ using an oracle map; the fewer-steps baseline is at $\BFewerTen$\,dB and $\BFewerSeven$\,dB for $2\times$ and $2.9\times$. Copying stays at $\BCopyOrig$\,dB. The regulariser is not free: the fine-tuned model's samples lose texture (Table~\ref{tab:variants}).
+\end{itemize}
+The change to the base method is one line of code, and it leaves the compute saving untouched.
+All experiments are toy-scale and CPU-only, like those of the base paper; we report them as evidence about a mechanism.

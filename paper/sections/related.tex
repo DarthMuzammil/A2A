@@ -1,0 +1,24 @@
+\section{Related work}
+\label{sec:related}
+
+\paragraph{Token merging and caching.}
+ToMe~\cite{bolya2023tome,bolya2023tomesd} merges similar tokens and introduced proportional attention; VidToMe~\cite{li2024vidtome} merges across frames for editing.
+Caching methods reuse features across sampling steps~\cite{zhao2025pab,liu2025teacache}.
+The base paper~\cite{garlapati2026ecm} removes tokens before generation, which requires identical copies and hence tied noise.
+Our contribution is orthogonal to the choice of merge rule: it concerns the noise.
+
+\paragraph{Correlated noise for video.}
+PYoCo~\cite{ge2023pyoco} trains with a noise prior that shares a component across frames; because the model is fine-tuned on that prior, its denoiser is calibrated to it.
+FreeNoise~\cite{qiu2024freenoise} reschedules noise across windows at inference.
+Noise warping~\cite{chang2024warped,burgert2025gowiththeflow} transports noise along motion while keeping every frame's noise white, since the per-frame marginal is what the model was trained on.
+Frame sharing is a different regime: the network is told, through proportional attention, that a token stands for $F$ tokens, and the consistent value for it is the mean of $F$ white samples, with variance $1/F$.
+Tying at unit variance, which is correct per frame, is what makes the copies too hot.
+
+\paragraph{Per-token noise levels.}
+Diffusion Forcing~\cite{chen2024diffusionforcing} trains with independent noise levels per token.
+Eq.~\ref{eq:clock} says a merged static token is exactly such a token, running on a faster clock.
+A model trained to accept one token per static position at its own time $t'$ would see in-distribution inputs, which mean-tying on a standard model does not provide; we leave this to future work.
+
+\paragraph{Ideal denoisers.}
+The closed-form posterior mean over a finite data set~\cite{karras2022edm} gives a network-free test bed, which we use in \S\ref{sec:ideal}.
+The sufficiency argument behind Lemma~\ref{lem:suff} is Rao--Blackwellisation: the deviations are ancillary, and discarding them loses nothing.

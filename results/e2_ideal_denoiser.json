@@ -1,0 +1,305 @@
+{
+ "n_data": 4096,
+ "n_seeds": 1024,
+ "steps": 20,
+ "calibration": {
+  "draft2": {
+   "threshold": 4.656612873077393e-10,
+   "precision": 0.6824189026832199,
+   "recall": 0.6474164133738601,
+   "f1": 0.6644570091635796,
+   "aggressive": {
+    "threshold": 0.14006298780441284,
+    "precision": 0.6369001796253528,
+    "recall": 0.9430091185410334,
+    "f1": 0.7603001991116557
+   }
+  },
+  "traj2": {
+   "threshold": 0.0023107759188860655,
+   "precision": 0.926829268292683,
+   "recall": 0.028875379939209727,
+   "f1": 0.05600589535740604,
+   "aggressive": {
+    "threshold": 0.015740469098091125,
+    "precision": 0.6842249657064472,
+    "recall": 0.9475683890577508,
+    "f1": 0.7946471244224947
+   }
+  },
+  "traj3": {
+   "threshold": 0.006587321404367685,
+   "precision": 0.9525745257452575,
+   "recall": 0.26709726443769,
+   "f1": 0.41721068249258164,
+   "aggressive": {
+    "threshold": 0.04441162943840027,
+    "precision": 0.7518541409147095,
+    "recall": 0.9243920972644377,
+    "f1": 0.829243353783231
+   }
+  },
+  "traj4": {
+   "threshold": 0.007930479943752289,
+   "precision": 0.9511614055985705,
+   "recall": 0.6067629179331308,
+   "f1": 0.7408953839016469,
+   "aggressive": {
+    "threshold": 0.04305398091673851,
+    "precision": 0.8402511335891175,
+    "recall": 0.915273556231003,
+    "f1": 0.8761593016912166
+   }
+  },
+  "traj6": {
+   "threshold": 0.008247947320342064,
+   "precision": 0.9556048834628191,
+   "recall": 0.9813829787234043,
+   "f1": 0.9683223992502342,
+   "aggressive": {
+    "threshold": 0.0020170363131910563,
+    "precision": 0.9868217054263566,
+    "recall": 0.9673252279635258,
+    "f1": 0.9769762087490407
+   }
+  }
+ },
+ "methods": {
+  "copy-tied, oracle map": {
+   "same_clip_rate": 0.0009765625,
+   "median_psnr_vs_independent_db": 10.389472007751465,
+   "bg_coef_std_ratio": [
+    2.0643422603607178,
+    1.7640336751937866,
+    1.7997676134109497,
+    1.7267651557922363,
+    1.4573111534118652,
+    1.5708922147750854
+   ],
+   "bg_coef_std_ratio_mean": 1.7305186986923218,
+   "output_static_on_S_rate": 0.0732421875,
+   "static_fraction": 0.6314697265625
+  },
+  "mean-tied, oracle map": {
+   "same_clip_rate": 0.90234375,
+   "median_psnr_vs_independent_db": 188.753662109375,
+   "bg_coef_std_ratio": [
+    0.9990628361701965,
+    1.0221575498580933,
+    1.0071505308151245,
+    1.0204838514328003,
+    0.9985479712486267,
+    1.025580644607544
+   ],
+   "bg_coef_std_ratio_mean": 1.0121639966964722,
+   "output_static_on_S_rate": 0.912109375,
+   "static_fraction": 0.6314697265625
+  },
+  "cold copy (leader/sqrt F), oracle map": {
+   "same_clip_rate": 0.123046875,
+   "median_psnr_vs_independent_db": 13.95067024230957,
+   "bg_coef_std_ratio": [
+    0.955832839012146,
+    0.9578342437744141,
+    0.9705511331558228,
+    1.0162057876586914,
+    0.9807319641113281,
+    1.0168101787567139
+   ],
+   "bg_coef_std_ratio_mean": 0.9829943180084229,
+   "output_static_on_S_rate": 0.283203125,
+   "static_fraction": 0.6314697265625
+  },
+  "copy-tied, 2-step draft map": {
+   "same_clip_rate": 0.0126953125,
+   "median_psnr_vs_independent_db": 10.490494728088379,
+   "bg_coef_std_ratio": [
+    1.996098279953003,
+    1.723541021347046,
+    1.8777860403060913,
+    1.7944999933242798,
+    1.4803271293640137,
+    1.5009225606918335
+   ],
+   "bg_coef_std_ratio_mean": 1.7288624048233032,
+   "output_static_on_S_rate": 0.072265625,
+   "static_fraction": 0.6036376953125
+  },
+  "mean-tied, 2-step draft map": {
+   "same_clip_rate": 0.4521484375,
+   "median_psnr_vs_independent_db": 17.72542953491211,
+   "bg_coef_std_ratio": [
+    0.9801539778709412,
+    1.0063327550888062,
+    0.9847502708435059,
+    1.0020147562026978,
+    0.983870804309845,
+    0.9902091026306152
+   ],
+   "bg_coef_std_ratio_mean": 0.9912219047546387,
+   "output_static_on_S_rate": 0.1943359375,
+   "static_fraction": 0.6036376953125
+  },
+  "copy-tied, 2-step draft map (aggressive)": {
+   "same_clip_rate": 0.0009765625,
+   "median_psnr_vs_independent_db": 9.787379264831543,
+   "bg_coef_std_ratio": [
+    2.2148044109344482,
+    1.862943172454834,
+    1.932563304901123,
+    1.7807255983352661,
+    1.5506858825683594,
+    1.6430368423461914
+   ],
+   "bg_coef_std_ratio_mean": 1.8307932615280151,
+   "output_static_on_S_rate": 0.0,
+   "static_fraction": 0.94818115234375
+  },
+  "mean-tied, 2-step draft map (aggressive)": {
+   "same_clip_rate": 0.2158203125,
+   "median_psnr_vs_independent_db": 16.5018253326416,
+   "bg_coef_std_ratio": [
+    0.9640253782272339,
+    0.9832079410552979,
+    0.9467769265174866,
+    0.9577274322509766,
+    0.9671711921691895,
+    1.023391842842102
+   ],
+   "bg_coef_std_ratio_mean": 0.9737167954444885,
+   "output_static_on_S_rate": 0.0029296875,
+   "static_fraction": 0.94818115234375
+  },
+  "copy-collapse at step 2, map from trajectory": {
+   "same_clip_rate": 0.798828125,
+   "median_psnr_vs_independent_db": 206.02059936523438,
+   "bg_coef_std_ratio": [
+    1.0185410976409912,
+    1.0451929569244385,
+    1.0491207838058472,
+    1.0495027303695679,
+    0.9974936246871948,
+    1.0377449989318848
+   ],
+   "bg_coef_std_ratio_mean": 1.0329326391220093,
+   "output_static_on_S_rate": 0.947265625,
+   "static_fraction": 0.01885986328125
+  },
+  "mean-collapse at step 2, map from trajectory": {
+   "same_clip_rate": 0.9892578125,
+   "median_psnr_vs_independent_db": 206.02059936523438,
+   "bg_coef_std_ratio": [
+    1.0014078617095947,
+    0.9991291165351868,
+    1.0009006261825562,
+    1.002265214920044,
+    1.0021770000457764,
+    1.0018376111984253
+   ],
+   "bg_coef_std_ratio_mean": 1.0012863874435425,
+   "output_static_on_S_rate": 0.98046875,
+   "static_fraction": 0.01885986328125
+  },
+  "copy-collapse at step 3, map from trajectory": {
+   "same_clip_rate": 0.33203125,
+   "median_psnr_vs_independent_db": 15.568410873413086,
+   "bg_coef_std_ratio": [
+    1.031978964805603,
+    1.1022734642028809,
+    1.1117517948150635,
+    1.1949938535690308,
+    1.060077428817749,
+    1.0898874998092651
+   ],
+   "bg_coef_std_ratio_mean": 1.0984939336776733,
+   "output_static_on_S_rate": 0.6611328125,
+   "static_fraction": 0.175048828125
+  },
+  "mean-collapse at step 3, map from trajectory": {
+   "same_clip_rate": 0.9814453125,
+   "median_psnr_vs_independent_db": 189.41665649414062,
+   "bg_coef_std_ratio": [
+    1.0000840425491333,
+    1.000933051109314,
+    1.000882625579834,
+    1.0016940832138062,
+    0.9997506141662598,
+    1.0044887065887451
+   ],
+   "bg_coef_std_ratio_mean": 1.0013055801391602,
+   "output_static_on_S_rate": 0.8779296875,
+   "static_fraction": 0.175048828125
+  },
+  "copy-collapse at step 4, map from trajectory": {
+   "same_clip_rate": 0.380859375,
+   "median_psnr_vs_independent_db": 16.225196838378906,
+   "bg_coef_std_ratio": [
+    1.0336956977844238,
+    1.0849530696868896,
+    1.0681177377700806,
+    1.0968502759933472,
+    1.0510249137878418,
+    1.0857372283935547
+   ],
+   "bg_coef_std_ratio_mean": 1.0700632333755493,
+   "output_static_on_S_rate": 0.46875,
+   "static_fraction": 0.41107177734375
+  },
+  "mean-collapse at step 4, map from trajectory": {
+   "same_clip_rate": 0.9912109375,
+   "median_psnr_vs_independent_db": 189.59805297851562,
+   "bg_coef_std_ratio": [
+    0.9985657334327698,
+    0.9990346431732178,
+    1.000055193901062,
+    1.000034213066101,
+    0.9995115399360657,
+    1.0015759468078613
+   ],
+   "bg_coef_std_ratio_mean": 0.9997962117195129,
+   "output_static_on_S_rate": 0.775390625,
+   "static_fraction": 0.41107177734375
+  },
+  "copy-collapse at step 6, map from trajectory": {
+   "same_clip_rate": 0.8408203125,
+   "median_psnr_vs_independent_db": 187.7493896484375,
+   "bg_coef_std_ratio": [
+    1.0047351121902466,
+    1.0060508251190186,
+    1.0195581912994385,
+    1.0287467241287231,
+    1.0006239414215088,
+    1.0034608840942383
+   ],
+   "bg_coef_std_ratio_mean": 1.0105291604995728,
+   "output_static_on_S_rate": 0.5888671875,
+   "static_fraction": 0.64324951171875
+  },
+  "mean-collapse at step 6, map from trajectory": {
+   "same_clip_rate": 1.0,
+   "median_psnr_vs_independent_db": 190.5327606201172,
+   "bg_coef_std_ratio": [
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0,
+    1.0
+   ],
+   "bg_coef_std_ratio_mean": 1.0,
+   "output_static_on_S_rate": 0.681640625,
+   "static_fraction": 0.64324951171875
+  }
+ },
+ "reference": {
+  "static_fraction": 0.6314697265625,
+  "bg_coef_std_over_data_sigma": [
+   0.6045178771018982,
+   0.7456930875778198,
+   0.7565776109695435,
+   0.7977612018585205,
+   0.8597308993339539,
+   0.8183272480964661
+  ]
+ }
+}

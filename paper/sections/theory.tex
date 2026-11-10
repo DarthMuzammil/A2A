@@ -1,0 +1,101 @@
+\section{Why copied noise is too hot}
+\label{sec:theory}
+
+\paragraph{Setting.}
+A clip is $x_0\in\mathbb{R}^{F\times P\times D}$: $F$ frames, $P$ spatial positions, $D$ values per token.
+Rectified flow corrupts it as $x_t=(1-t)\,x_0+t\,\varepsilon$ with $\varepsilon\sim\mathcal{N}(0,I)$; in our convention $t=1$ is pure noise.
+The ideal denoiser is $D(x,t)=\mathbb{E}[x_0\mid x_t=x]$, the probability-flow velocity is $u(x,t)=(x-D(x,t))/t$, and the $K$-step Euler sampler is
+$x^{i+1}=x^{i}-\tfrac1K\,u(x^{i},t_i)$ with $t_i=1-i/K$ and $x^{0}=\varepsilon$.
+We write $\Phi(\varepsilon)=x^{K}$ for its output.
+
+Let $S$ be a set of positions at which the clip does not change over time, $x_0[f,p]=b_p$ for every frame $f$ and $p\in S$.
+For any $x$ and $p\in S$ define the frame mean $\bar x_p=\tfrac1F\sum_f x[f,p]$ and the deviations $\delta_{f,p}=x[f,p]-\bar x_p$; $x_R$ denotes all tokens outside $S$.
+Frame sharing needs the $F$ copies of a static position to be identical, so the base paper overwrites them with the leader frame's noise.
+We compare two ways of making them identical:
+\begin{align*}
+\Copy{}:&\quad x[f,p]\leftarrow x[1,p], \\
+\Mean{}:&\quad x[f,p]\leftarrow \bar x_p, \qquad\qquad p\in S .
+\end{align*}
+
+\begin{lemma}[The frame mean is sufficient]\label{lem:suff}
+If the data are static on $S$ almost surely, then for every $t\in(0,1]$ the denoiser $D(x,t)$ depends on $x$ only through $(\bar x_S,x_R)$, and its value at a position $p\in S$ is the same in every frame.
+\end{lemma}
+\begin{proof}
+For $p\in S$, $\sum_f\|x[f,p]-(1-t)b_p\|^2=F\,\|\bar x_p-(1-t)b_p\|^2+\sum_f\|\delta_{f,p}\|^2$.
+The likelihood of $x$ given $x_0$ is therefore $\exp(-\|\delta\|^2/2t^2)$ times a function of $(\bar x_S,x_R,x_0)$.
+The first factor does not involve $x_0$ and cancels in the posterior.
+\end{proof}
+
+\begin{lemma}[The sampler splits]\label{lem:split}
+Under the assumption of Lemma~\ref{lem:suff}, along the Euler sampler
+(i) the pair $(\bar x_S,x_R)$ evolves by itself, and
+(ii) $\delta^{i}=t_i\,\delta^{0}$, so that $\delta^{K}=0$.
+\end{lemma}
+\begin{proof}
+On $S$, $u[f,p]=(x[f,p]-\hat b_p)/t$ where $\hat b_p$ is the common denoiser output, a function of $(\bar x_S,x_R)$ by Lemma~\ref{lem:suff}.
+Averaging over frames gives $\bar u_p=(\bar x_p-\hat b_p)/t$, and subtracting gives $u[f,p]-\bar u_p=\delta_{f,p}/t$.
+Hence $\delta^{i+1}=\delta^{i}\,(1-\tfrac{1}{Kt_i})=\delta^{i}\,t_{i+1}/t_i$.
+The update of $x_R$ involves $x$ only through $D$.
+\end{proof}
+
+\begin{theorem}[Averaging preserves the sample]\label{thm:mean}
+Under the assumption of Lemma~\ref{lem:suff}, $\Phi(\Mean{}(\varepsilon))=\Phi(\varepsilon)$ for every $\varepsilon$.
+More generally, applying \Mean{} to the state at any step of the sampler leaves the final sample unchanged.
+\end{theorem}
+\begin{proof}
+\Mean{} keeps $(\bar x_S,x_R)$ and sets $\delta=0$.
+By Lemma~\ref{lem:split} the future of $(\bar x_S,x_R)$ is unaffected, and the output on $S$ is $\bar x_S^{K}+\delta^{K}=\bar x_S^{K}$ in both cases.
+\end{proof}
+
+\begin{theorem}[Copying heats the static content by $\sqrt F$]\label{thm:copy}
+With independent noise the closed subsystem of Lemma~\ref{lem:split} starts from $\bar x_S^{0}=\bar\varepsilon_S\sim\mathcal{N}(0,I/F)$.
+After \Copy{} it starts from $\varepsilon[1,S]\sim\mathcal{N}(0,I)$: the same sampler, but with the starting noise of the static content $\sqrt F$ times too strong.
+In particular, let the clip be a static Gaussian field $x_0[f]=\sum_k c_k\psi_k$ with orthogonal $\psi_k$ and independent $c_k\sim\mathcal{N}(0,\sigma_k^2)$, and tie the noise on a set $S$ that holds a share $\rho_k$ of the energy of $\psi_k$.
+Then the variance of every generated coefficient is multiplied by
+\begin{equation}
+\rho_k F+(1-\rho_k) \qquad\text{(\Copy{})}, \qquad\qquad 1 \qquad\text{(\Mean{})}.
+\label{eq:law}
+\end{equation}
+\end{theorem}
+\begin{proof}
+The first part is the definition of the two operators.
+For Gaussian data $D$ is linear, hence so is $\Phi$, and the generated coefficient is $c_k=g_k\langle\varepsilon,u_k\rangle$ with $u_k$ the unit vector along $\psi_k$ repeated over frames and $g_k$ a gain that does not depend on $\varepsilon$.
+For independent noise $\mathrm{Var}\langle\varepsilon,u_k\rangle=1$.
+After \Copy{} the $F$ frames contribute coherently on $S$, which gives $\rho_kF^2/F+(1-\rho_k)$; after \Mean{} the projection is unchanged.
+\end{proof}
+
+\paragraph{Reading.}
+Proportional attention tells the network that one key stands for $F$ tokens.
+A network trained on independent noise has learned to pool $F$ tokens as $F$ independent measurements of the same background, which is correct, and gives the pooled value a noise level of $t/\sqrt F$.
+\Copy{} hands it a single measurement counted $F$ times: the network is over-confident by $\sqrt F$ and treats noise as signal.
+\Mean{} hands it the pooled measurement itself.
+The change to the method is one line, and the compute saving is untouched because the copies are identical either way.
+
+\paragraph{Static tokens are colder.}
+In the closed subsystem a static token is $\bar x=(1-t)\,b+t\,\bar\varepsilon$ with $\mathrm{Var}(\bar\varepsilon)=1/F$.
+At time $t$ it has the signal-to-noise ratio of an ordinary token at the earlier-looking time
+\begin{equation}
+t'=\frac{t}{t+\sqrt F\,(1-t)}<t .
+\label{eq:clock}
+\end{equation}
+This makes the base paper's temperature picture quantitative, and it predicts its settling measurement without any appeal to information density: if moving tokens settle at step 7 of 20 ($t=0.65$), static tokens of an 8-frame clip reach the same signal-to-noise ratio at $t=0.84$, i.e.\ after about 3 steps; the base paper measured 4.
+
+\paragraph{Collapsing mid-generation.}
+The second sentence of Theorem~\ref{thm:mean} removes the need for a separate draft pass.
+One can run the first $k$ steps of the real trajectory on all tokens, read the static map from the clean prediction the sampler has just computed, replace the static tokens by their frame mean, and continue with sharing.
+Those $k$ steps are not overhead, because they are the trajectory.
+The base paper reported that switching mid-generation fails because ``switching resets each copy's trajectory''; that is the signature of \Copy{}, which replaces the pooled state by one frame's state.
+
+\paragraph{When clips have different static sets.}
+The assumption of Lemma~\ref{lem:suff} fixes $S$.
+Real data mix clips with different static sets, and then the deviations $\delta$ carry evidence about \emph{whether} $S$ is static.
+Take a clip $a$ that is static on $S$ and a clip $c$ that is not, with deviations $\delta^{c}$ on $S$.
+Repeating the computation of Lemma~\ref{lem:suff}, their posterior log-odds given $x$ are
+\begin{equation}
+\log\frac{w_c}{w_a}=G(\bar x_S,x_R)-\frac{(1-t)^2\|\delta^{c}\|^2}{2t^2}+\frac{1-t}{t^2}\,\langle\delta,\delta^{c}\rangle .
+\label{eq:mixture}
+\end{equation}
+If $x$ is a noised version of a clip static on $S$, then $\delta=t\,n$ with $n$ pure noise and the last term is $\mathcal{N}\!\big(0,(1-t)^2\|\delta^{c}\|^2/t^2\big)$: a zero-mean fluctuation in the evidence against staticness.
+\Mean{} sets this term to its mean and leaves the weights among clips static on $S$ untouched.
+So averaging is no longer exact, but its only effect is to remove a zero-mean term; the effect vanishes once the posterior has committed, which is why a later collapse is safer (\S\ref{sec:ideal}).
+\Copy{} removes the same term and, in addition, rescales the noise of $\bar x_S$ by $\sqrt F$.

@@ -1,0 +1,63 @@
+\documentclass[10pt,twocolumn]{article}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{mathptmx}
+\usepackage[scaled=0.9]{helvet}
+\usepackage[letterpaper,margin=0.78in,columnsep=0.28in]{geometry}
+\usepackage{amsmath,amssymb,amsthm}
+\usepackage{booktabs,makecell}
+\usepackage{graphicx}
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage[font=small,labelfont=bf]{caption}
+\usepackage{microtype}
+\usepackage[numbers,sort&compress]{natbib}
+\usepackage[colorlinks=true,linkcolor=blue!55!black,citecolor=blue!55!black,urlcolor=blue!55!black]{hyperref}
+\newcommand{\Copy}{\textup{\textsc{copy}}}
+\newcommand{\Mean}{\textup{\textsc{mean}}}
+\newtheorem{theorem}{Theorem}
+\newtheorem{lemma}{Lemma}
+\setlength{\parskip}{0pt}
+\renewcommand{\paragraph}[1]{\vspace{4pt}\noindent\textbf{#1}\hspace{0.5em}}
+\makeatletter\newcommand{\tabinput}[1]{\@@input #1 }\makeatother
+\input{generated/numbers.tex}
+
+\renewcommand{\topfraction}{0.95}\renewcommand{\dbltopfraction}{0.95}
+\renewcommand{\bottomfraction}{0.6}\renewcommand{\textfraction}{0.04}
+\renewcommand{\floatpagefraction}{0.75}\renewcommand{\dblfloatpagefraction}{0.75}
+\setcounter{topnumber}{3}\setcounter{dbltopnumber}{3}\setcounter{totalnumber}{5}
+
+\begin{document}
+\twocolumn[
+\begin{center}
+{\LARGE\bfseries Static Tokens Are Colder:\\[2pt] Averaged Noise for Frame-Shared Video Generation\par}
+\vspace{5pt}
+{\large Errata and a follow-up to ``Entropy-Continuum Mechanics for Video''\par}
+\vspace{10pt}
+{\large DarthMuzammil\par}
+\vspace{1pt}
+{\small Independent researcher\par}
+\vspace{5pt}
+{\small Technical report, November 2026\par}
+\end{center}
+\vspace{4pt}
+\begin{center}
+\begin{minipage}{0.86\textwidth}
+\small
+\input{sections/abstract.tex}
+\end{minipage}
+\end{center}
+\vspace{10pt}
+]
+\input{sections/intro.tex}
+\input{sections/errata.tex}
+\input{sections/theory.tex}
+\input{sections/method.tex}
+\input{sections/exp_ideal.tex}
+\input{sections/exp_trained.tex}
+\input{sections/related.tex}
+\input{sections/closing.tex}
+\small
+\bibliographystyle{unsrtnat}
+\bibliography{refs}
+\end{document}

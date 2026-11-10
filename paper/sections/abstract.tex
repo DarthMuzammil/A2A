@@ -1,0 +1,14 @@
+\noindent\textbf{Abstract.}\hspace{0.4em}A recent report, \emph{Entropy-Continuum Mechanics for Video}, treats video information as a moving material and derives a permanence score and \emph{frame-shared generation}, in which a video diffusion transformer computes static-background tokens once and copies them across frames.
+We audit the report and build on it.
+The audit lists 17 errors and gaps, most of them verified numerically.
+The score charges pure noise $\NullBias$ bits per pixel that it states are free; it is unbounded and scales inversely with a clip's grain; its clip-level maximum grows with clip length; proportional attention is exact only without temporal position information; and the headline fidelity of frame sharing, 41.5--43.8\,dB, is measured against a reference the method has itself altered, while against the original output the report's own figure is 11--15\,dB, below every baseline.
+Our new work answers the report's open question: is a sample generated from shared noise as good?
+Not when the noise is shared by copying.
+The $F$ copies of a static token are $F$ measurements of one quantity, the network pools them, and one measurement counted $F$ times makes it over-confident by $\sqrt F$.
+We prove that for an ideal denoiser, replacing the copies by their frame \emph{mean} leaves the generated sample exactly unchanged, at the start or mid-generation, whereas copying inflates the variance of Gaussian static content by exactly $F$.
+Both hold to float precision in a solvable model; with an exact nonlinear denoiser, copying returns the original clip in $\IdealCopySame\,\%$ of runs and averaging in $\IdealMeanSame$--$\IdealMeanSixSame\,\%$.
+In a trained $1.3$M-parameter transformer, copying over-disperses backgrounds $\ACopyStd\times$ and lands $\ACopyOrig$\,dB from the original sample.
+Averaging removes the over-dispersion and gains $13$\,dB, but a network that has never seen tied tokens over-produces texture, and on equal footing frame sharing then loses to simply taking fewer steps.
+A short fine-tune with a regulariser that encodes the sufficiency of the frame mean closes the gap: with the base report's own 2-step draft map, mean-tied sharing reproduces the original sample at $\BMeanDraftOrig$\,dB with $\BDraftSpeedup\times$ fewer FLOPs and at $\BMeanAggrOrig$\,dB with $\BAggrSpeedup\times$ (oracle map: $\BMeanOrig$\,dB, $\BOracleSpeedup\times$), more than $15$\,dB above the fewer-steps baseline, while copying stays at $\BCopyOrig$\,dB.
+The regulariser is not free: a no-regulariser control shows it, not extra training, causes the change, and it costs texture in the model's samples ($\VarFiveTex$ to $\VarBTex$ of the data's level, against $\VarATex$), a trade-off we chart but do not resolve.
+All experiments are toy-scale and CPU-only.

@@ -1,0 +1,83 @@
+{
+ "n_per_class": 2048,
+ "classifier_seeds": 3,
+ "noise_floor": 0.03,
+ "vs_full_compute": {
+  "full compute, fresh seeds (control)": {
+   "accuracy": 0.5149739583333334,
+   "per_seed": [
+    0.5087890625,
+    0.521484375,
+    0.5146484375
+   ],
+   "binomial_se": 0.015622585825382946
+  },
+  "fewer steps (10)": {
+   "accuracy": 0.7099609375,
+   "per_seed": [
+    0.7109375,
+    0.7109375,
+    0.7080078125
+   ],
+   "binomial_se": 0.014166468824613289
+  },
+  "fewer steps (7)": {
+   "accuracy": 0.8411458333333334,
+   "per_seed": [
+    0.8408203125,
+    0.841796875,
+    0.8408203125
+   ],
+   "binomial_se": 0.01143261142912065
+  },
+  "copy-tied sharing, 2-step draft map": {
+   "accuracy": 0.9973958333333334,
+   "per_seed": [
+    0.998046875,
+    0.9990234375,
+    0.9951171875
+   ],
+   "binomial_se": 0.001379718573664223
+  },
+  "mean-tied sharing, 2-step draft map": {
+   "accuracy": 0.4957682291666667,
+   "per_seed": [
+    0.4755859375,
+    0.49609375,
+    0.515625
+   ],
+   "binomial_se": 0.0156063624330228
+  },
+  "copy-collapse sharing at step 2": {
+   "accuracy": 0.5224609375,
+   "per_seed": [
+    0.5146484375,
+    0.517578125,
+    0.53515625
+   ],
+   "binomial_se": 0.01561829303799591
+  },
+  "mean-collapse sharing at step 2": {
+   "accuracy": 0.4996744791666667,
+   "per_seed": [
+    0.4990234375,
+    0.5068359375,
+    0.4931640625
+   ],
+   "binomial_se": 0.01562497019764919
+  },
+  "mean-collapse sharing at step 4": {
+   "accuracy": 0.5152994791666666,
+   "per_seed": [
+    0.5078125,
+    0.525390625,
+    0.5126953125
+   ],
+   "binomial_se": 0.015623092534937653
+  }
+ },
+ "model_vs_training_data": {
+  "accuracy": 0.9912109375,
+  "binomial_se": 0.002916784482801634
+ }
+}

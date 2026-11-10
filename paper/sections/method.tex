@@ -1,0 +1,34 @@
+\section{Mean-tied frame sharing}
+\label{sec:method}
+
+The method keeps every part of the base paper's frame sharing and changes how the copies are made identical.
+
+\begin{enumerate}[leftmargin=1.4em,itemsep=1pt,topsep=2pt]
+\item \textbf{Map.} Decide which positions are static. Either (a) run a 2-step draft from the \emph{same} noise and threshold its largest frame-to-frame change, as in the base paper; or (b) run the first $k$ steps of the real trajectory on all tokens and threshold the change of the clean prediction $\hat x_0=x-t\,v$ that step $k{-}1$ produced anyway.
+\item \textbf{Collapse.} At every static position replace the $F$ copies by their frame mean: of the starting noise for (a), of the current state for (b). The base paper uses the leader frame's value here.
+\item \textbf{Share.} Keep one token per static position, add $\log F$ to its attention logit as a key, and write its output to all $F$ frames. Unchanged.
+\end{enumerate}
+
+With variant (a) the mean-tied noise has standard deviation $1/\sqrt F$ at static positions.
+With variant (b) there is no extra pass: the $k$ warm-up steps are part of the trajectory, and by Theorem~\ref{thm:mean} the collapse does not disturb it.
+Because averaging preserves the sample, the draft and the final video are now the \emph{same} sample, so the static map describes the video that is actually produced (Table~\ref{tab:errata}, item~14), and the accelerated output can be scored against the original output like any other acceleration method (item~12).
+
+\paragraph{What the theory does not cover.}
+The guarantees assume an ideal denoiser and a truly static $S$.
+A trained network is ideal only near its training distribution, and a state with $\delta=0$ is outside it: each tied token is cleaner than the time $t$ announces.
+Token removal with proportional attention adds its own error (item~11).
+A wrongly marked position is forced to be static.
+The experiments measure all three, and the first turns out to matter (\S\ref{sec:trained}).
+
+\paragraph{A sufficiency regulariser.}
+Lemma~\ref{lem:suff} is a property of the ideal denoiser that a finite network has no reason to learn exactly, because independent noise never presents it with $\delta=0$.
+It can be taught.
+During training we show every clip twice with the same noise $\varepsilon$: once untouched and once with the noise on a random subset $S$ of the clip's static positions replaced by its frame mean, $\tilde\varepsilon=\Mean{}_S(\varepsilon)$.
+With $v$ and $\tilde v$ the network's velocities on the two views, the loss is
+\begin{equation}
+\tfrac12\|v-(\varepsilon-x_0)\|^2+\tfrac12\|\tilde v-(\tilde\varepsilon-x_0)\|^2+\lambda\,\|\Mean{}_S(v)-\tilde v\|^2 .
+\label{eq:reg}
+\end{equation}
+The first two terms are the ordinary rectified-flow loss on each view.
+The third is zero for the ideal denoiser: by Lemma~\ref{lem:split} the frame mean of the velocity on $S$ is the velocity of the pooled token, and elsewhere the two velocities coincide.
+It asks the network to treat the deviations as the nuisance they are.

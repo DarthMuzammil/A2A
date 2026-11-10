@@ -1,0 +1,27 @@
+\section{Limitations}
+\label{sec:limits}
+
+Everything here is toy-scale: a 1.27M-parameter transformer, $8\times32\times32$ grayscale synthetic clips, a static camera, CPU only.
+We have not run an open video model, so nothing here shows that mean-tying helps at scale; the argument that it should rests on the theory, which does not depend on scale, and on the network-free checks.
+Each model variant was trained once, and the regulariser was tried at two weights only; it lowers the texture of the model's samples, and we do not know whether that can be avoided.
+The errata on the permanence score come from our re-implementation of the printed equations, not from the authors' code, and we did not rebuild their benchmark; items marked \textbf{C} in Table~\ref{tab:errata} are concerns, not findings.
+We propose no replacement score.
+The classifier two-sample test is a lower bound on distinguishability.
+Speedups are analytic FLOP counts; the timing check in \S\ref{sec:trained} covers only a small model on a CPU.
+
+\section{Conclusion}
+
+The base paper asked whether a shared-noise sample is as good as an independent-noise one.
+For noise shared by copying, the answer is no, for a reason that can be stated in one sentence: the frame mean of $F$ white samples has variance $1/F$, and the network knows it.
+Sharing by averaging respects that, is exact for an ideal denoiser, and costs nothing.
+On a trained network the missing ingredient is the invariance that the ideal denoiser has for free.
+Once it is taught, frame sharing does what the base paper's headline claimed, this time against the right reference, and a classifier cannot tell its samples from full compute.
+What remains open is the price of that invariance in sample quality, the static-camera assumption, a reliable static map early in the trajectory, and above all scale.
+
+\paragraph{Reproducibility.}
+Code, trained weights, every result as JSON, and the scripts that turn them into the tables, figures and numbers of this report are in the accompanying repository; \texttt{FINDINGS.md} maps each item to its script.
+Numbers from our experiments are inserted from the result files by script; numbers attributed to the base paper are quoted from its text.
+
+\paragraph{Acknowledgements.}
+Analysis, experiments, code and drafting were carried out with an AI coding assistant (Claude Code, Anthropic).
+We thank the author of the base paper for a report explicit enough to be checked.
