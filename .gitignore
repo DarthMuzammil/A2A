@@ -1,11 +1,1 @@
-__pycache__/
-*.pyc
-cache/
-.pytest_cache/
-paper/*.aux
-paper/*.log
-paper/*.out
-paper/*.bbl
-paper/*.blg
-checkpoints/*.log
-results/*.log
+.DS_Store
