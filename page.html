@@ -240,24 +240,22 @@ em .w>span,.em .w>span{background:var(--gold-grad);-webkit-background-clip:text;
 @media (max-width:860px){.finder .wrap{grid-template-columns:1fr}}
 
 /* ---------- before/after ---------- */
-.ba header{text-align:center;max-width:720px;margin:0 auto}
-.ba header .lede{margin:18px auto 0}
-.slider{position:relative;margin:50px auto 0;max-width:980px;height:clamp(300px,42vw,420px);border-radius:32px;overflow:hidden;border:1px solid var(--line);--p:50%;user-select:none;-webkit-user-select:none}
-.side{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;padding:clamp(24px,6vw,64px)}
-.side small{font:600 .74rem/1 var(--f-body);letter-spacing:.24em;text-transform:uppercase}
-.side p{font:800 clamp(1.35rem,3.4vw,2.7rem)/1.06 var(--f-display);letter-spacing:-.035em;margin-top:16px;max-width:40%}
-.side small{max-width:40%}
-.before{background:repeating-linear-gradient(-45deg,#2a1a1e 0 2px,#22141a 2px 14px);color:#a79499}
-.before small{color:#8d7a7f}
-.after{background:radial-gradient(circle at 75% 40%,#b0336a,var(--wine) 45%,#4d0c27);align-items:flex-end;text-align:right;clip-path:inset(0 0 0 var(--p))}
-.after small{color:var(--gold)}
-.after p{color:var(--ink)}
-.after p em{font-size:1.06em}
-.handle{position:absolute;top:0;bottom:0;left:var(--p);width:2px;background:var(--gold);transform:translateX(-1px);pointer-events:none;box-shadow:0 0 20px var(--gold)}
+.ba .wrap{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(30px,6vw,90px);align-items:center}
+.ba h2{margin-top:18px}
+.ba .lede{margin-top:20px}
+.ba .hero-cta{margin-top:30px}
+.slider{position:relative;width:100%;max-width:480px;aspect-ratio:4/5;border-radius:200px 200px 28px 28px / 150px 150px 28px 28px;overflow:hidden;border:1px solid rgba(230,197,140,.35);box-shadow:0 50px 100px -40px rgba(0,0,0,.9);--p:50%;user-select:none;-webkit-user-select:none;justify-self:center;background:var(--bg-2)}
+.slider .ph{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none}
+.slider .ph.after{clip-path:inset(0 0 0 var(--p))}
+.lbl{position:absolute;bottom:18px;z-index:2;font:600 .7rem/1 var(--f-body);letter-spacing:.22em;text-transform:uppercase;padding:9px 13px;border-radius:999px;background:rgba(20,7,12,.72);backdrop-filter:blur(8px);border:1px solid var(--line);pointer-events:none}
+.lbl.l{left:18px;color:var(--ink)}
+.lbl.r{right:18px;color:var(--gold)}
+.handle{position:absolute;top:0;bottom:0;left:var(--p);width:2px;background:var(--gold);transform:translateX(-1px);pointer-events:none;box-shadow:0 0 20px var(--gold);z-index:2}
 .handle::after{content:"⟷";position:absolute;top:50%;left:50%;width:54px;height:54px;transform:translate(-50%,-50%);border-radius:50%;background:var(--gold-grad);color:#2a0c17;display:grid;place-items:center;font-size:1.3rem;font-weight:700;box-shadow:0 10px 30px rgba(0,0,0,.5)}
-.slider input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0}
-.slider input:focus-visible+.handle::after{outline:2px solid var(--ink);outline-offset:3px}
-.ba .caption{text-align:center;color:var(--dim);font-size:.9rem;margin-top:18px}
+.slider input{position:absolute;inset:0;width:100%;height:100%;opacity:0;cursor:ew-resize;margin:0;z-index:3}
+.slider input:focus-visible~.handle::after{outline:2px solid var(--ink);outline-offset:3px}
+.ba .caption{color:var(--dim);font-size:.88rem;margin-top:16px}
+@media (max-width:860px){.ba .wrap{grid-template-columns:1fr}.slider{max-width:420px}}
 
 /* ---------- instagram proof ---------- */
 .proof .wrap{display:grid;grid-template-columns:1fr auto;gap:30px;align-items:center}
@@ -452,7 +450,7 @@ main,header.nav,footer{position:relative;z-index:1}
           <p class="t">6:30 pm · Hair</p>
           <h3>Hair that <em>behaves.</em></h3>
           <p>A protein treatment for frizz and breakage, natural henna for colour and shine, or simply a wash and a blow-dry so you leave finished.</p>
-          <div class="tags"><span class="tag">Protein treatment</span><span class="tag">Natural henna</span><span class="tag">Blow-dry &amp; styling</span></div>
+          <div class="tags"><span class="tag">Protein treatment</span><span class="tag">Natural henna</span><span class="tag">Blow-dry &amp; styling</span><span class="tag">Event makeup</span></div>
         </article>
         <article class="step" data-step="5">
           <p class="t">7:15 pm</p>
@@ -501,7 +499,7 @@ main,header.nav,footer{position:relative;z-index:1}
       <a class="card rv tilt" href="https://linktr.ee/mazunabeautybh" target="_blank" rel="noopener" style="--d:.24s">
         <svg class="ic" viewBox="0 0 120 120" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M40 20c-6 30 10 50 0 84"/><path d="M56 18c-6 32 10 52 0 88"/><path d="M72 20c-6 30 10 50 0 84"/><path d="M88 24c-6 28 8 46 0 76"/></svg>
         <h3>Hair</h3><p class="sub">soft, strong, finished</p>
-        <ul><li>Protein treatment</li><li>Natural henna</li><li>Cuts, wash and blow-dry</li><li>Styling for events</li></ul>
+        <ul><li>Protein treatment</li><li>Natural henna</li><li>Cuts, wash and blow-dry</li><li>Hair and makeup for events</li></ul>
         <span class="go">Ask about this <i>→</i></span>
       </a>
     </div>
@@ -571,18 +569,23 @@ main,header.nav,footer{position:relative;z-index:1}
 <!-- BEFORE / AFTER -->
 <section class="band ba" aria-labelledby="b-h" style="padding-top:0">
   <div class="wrap">
-    <header>
-      <p class="eyebrow rv">Drag the line</p>
-      <h2 id="b-h" data-split>Before. <em>After.</em></h2>
-      <p class="lede rv" style="--d:.1s">Our Instagram is full of real before-and-after hair. This is the version you will feel.</p>
-    </header>
     <div class="slider rv" id="slider">
-      <div class="side before"><small>Before</small><p>Tense. Frizzy. Running on coffee.</p></div>
-      <div class="side after"><small>After</small><p>Soft. Smooth. Running on <em>nothing at all.</em></p></div>
+      <img class="ph before" src="assets/before.jpg" alt="Mazuna client before: bare skin, hair pinned in curls" width="800" height="1000" loading="lazy">
+      <img class="ph after" src="assets/after.jpg" alt="The same client after: curled updo, soft smoky eyes and a berry lip" width="800" height="1000" loading="lazy">
+      <span class="lbl l">Before</span><span class="lbl r">After</span>
       <input type="range" id="baRange" min="0" max="100" value="50" aria-label="Compare before and after">
       <div class="handle"></div>
     </div>
-    <p class="caption">Drag or use the arrow keys.</p>
+    <div>
+      <p class="eyebrow rv">Real client · Hair &amp; makeup</p>
+      <h2 id="b-h" data-split>Before. <em>After.</em></h2>
+      <p class="lede rv" style="--d:.1s">Same client, same afternoon, in our Tubli salon. A curled updo, soft smoky eyes and a berry lip. Drag the line to see the difference.</p>
+      <div class="hero-cta rv" style="--d:.15s">
+        <a class="btn btn-gold mag" href="https://linktr.ee/mazunabeautybh" target="_blank" rel="noopener">Book hair &amp; makeup</a>
+        <a class="btn btn-ghost mag" href="https://www.instagram.com/mazunabeauty.bh/" target="_blank" rel="noopener">More looks on Instagram</a>
+      </div>
+      <p class="caption rv" style="--d:.2s">Drag the photo or use the arrow keys.</p>
+    </div>
   </div>
 </section>
 
