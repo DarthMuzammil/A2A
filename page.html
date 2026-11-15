@@ -30,7 +30,7 @@
   color-scheme:dark;
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+html{overflow-x:clip;scroll-behavior:smooth;-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--bg);color:var(--ink);font:400 17px/1.6 var(--f-body);overflow-x:hidden;-webkit-font-smoothing:antialiased}
 body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:var(--bg)}
 a{color:inherit}
@@ -83,7 +83,7 @@ section{position:relative}
 @media (max-width:860px){.nav-links{display:none}}
 
 /* ---------- hero ---------- */
-.hero{padding-block:clamp(36px,6vw,80px) clamp(56px,8vw,110px)}
+.hero{overflow-x:clip;padding-block:clamp(36px,6vw,80px) clamp(56px,8vw,110px)}
 .hero .wrap{display:grid;grid-template-columns:1.08fr .92fr;align-items:center;gap:clamp(28px,5vw,72px)}
 .hero h1{font-size:clamp(3rem,7.6vw,6.4rem);font-weight:800;letter-spacing:-.04em;margin-top:22px}
 .hero h1 em{display:inline-block;font-size:1.08em;font-weight:600}
@@ -138,32 +138,8 @@ em .w>span,.em .w>span{background:var(--gold-grad);-webkit-background-clip:text;
 .js [data-split] .w>span{animation:none;transform:translateY(105%);opacity:0;transition:transform .9s var(--soft),opacity .6s;transition-delay:calc(var(--i)*55ms)}
 .js [data-split].in .w>span{transform:none;opacity:1}
 
-/* ---------- worries ---------- */
-.worries .wrap{display:grid;grid-template-columns:.95fr 1.05fr;gap:clamp(30px,5vw,80px);align-items:center}
-.worries h2{margin-top:18px}
-.worries .lede{margin-top:22px}
-.tally{display:flex;align-items:baseline;gap:12px;margin-top:30px;font-family:var(--f-display)}
-.tally b{font-size:3.4rem;font-weight:800;line-height:1;font-variant-numeric:tabular-nums;color:var(--gold);display:inline-block}
-.tally b.bump{animation:bump .5s var(--spring)}
-@keyframes bump{30%{transform:scale(1.35) rotate(-6deg)}}
-.tally span{color:var(--muted);font-family:var(--f-body)}
-.worries .actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
-.pile{position:relative;height:440px;border-radius:32px;background:radial-gradient(ellipse at 50% 40%,rgba(122,23,64,.4),transparent 70%),var(--bg-2);border:1px solid var(--line);overflow:hidden;touch-action:none}
-.pile::before{content:"drag · flick · let go";position:absolute;bottom:18px;left:0;right:0;text-align:center;font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;color:var(--dim)}
-.worry{position:absolute;left:50%;top:46%;width:min(300px,78%);padding:18px 20px;border-radius:20px;background:linear-gradient(160deg,#2c1019,#1d0911);border:1px solid rgba(230,197,140,.22);box-shadow:0 20px 40px -18px rgba(0,0,0,.9);cursor:grab;user-select:none;-webkit-user-select:none;touch-action:none;transform:translate(-50%,-50%) translate(var(--x,0px),var(--y,0px)) rotate(var(--r,0deg));transition:transform .55s var(--spring)}
-.worry.drag{transition:none;cursor:grabbing;box-shadow:0 30px 60px -18px rgba(0,0,0,.95),0 0 0 1px var(--gold)}
-.worry.gone{transition:transform .55s cubic-bezier(.4,0,.9,.5),opacity .5s;opacity:0}
-.worry small{display:flex;align-items:center;gap:8px;font-size:.7rem;letter-spacing:.18em;text-transform:uppercase;color:var(--dim)}
-.worry small::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--wine-hi);box-shadow:0 0 10px var(--wine-hi);animation:ping 1.6s ease-out infinite}
-@keyframes ping{50%{opacity:.35}}
-.worry p{font:600 1.15rem/1.3 var(--f-display);margin-top:8px}
-.calm{position:absolute;inset:0;display:grid;place-items:center;text-align:center;padding:30px;opacity:0;transform:scale(.9);transition:opacity .8s var(--ease),transform .9s var(--spring);pointer-events:none}
-.calm.show{opacity:1;transform:none;pointer-events:auto}
-.calm h3{font-size:clamp(1.6rem,3vw,2.2rem)}
-.calm p{color:var(--muted);margin:12px auto 22px;max-width:30ch}
 .petal{position:absolute;width:12px;height:8px;border-radius:70% 0 70% 0;background:linear-gradient(135deg,var(--wine-hi),var(--gold));pointer-events:none;animation:burst .9s cubic-bezier(.15,.7,.4,1) forwards;z-index:5}
 @keyframes burst{to{transform:translate(var(--bx),var(--by)) rotate(var(--br));opacity:0}}
-@media (max-width:860px){.worries .wrap{grid-template-columns:1fr}.pile{height:380px}}
 
 /* ---------- afternoon timeline ---------- */
 .afternoon{background:linear-gradient(180deg,var(--bg),var(--bg-2) 20%,var(--bg-2) 80%,var(--bg))}
@@ -408,32 +384,6 @@ main,header.nav,footer{position:relative;z-index:1}
     <span>Moroccan bath <b>✦</b> <em>breathe out</em> <b>✦</b> Body massage &amp; spa <b>✦</b> Facials <b>✦</b> <em>glow</em> <b>✦</b> Protein hair treatment <b>✦</b> Natural henna <b>✦</b> <em>slow down</em> <b>✦</b></span>
   </div>
 </div>
-
-<!-- WORRIES -->
-<section class="band worries" aria-labelledby="w-h">
-  <div class="wrap">
-    <div>
-      <p class="eyebrow rv">Before you come in</p>
-      <h2 id="w-h" data-split>Go on. <em>Put it all down.</em></h2>
-      <p class="lede rv" style="--d:.1s">Everything on your mind is sitting in that pile. Drag each one off the table. Flick it hard and it is gone. We will take it from there.</p>
-      <div class="tally rv" style="--d:.15s" aria-live="polite"><b id="count">6</b><span id="countLabel">things still on your mind</span></div>
-      <div class="actions rv" style="--d:.2s">
-        <button class="btn btn-ghost" id="clearAll" type="button">Let it all go at once</button>
-        <a class="btn btn-gold mag" href="https://linktr.ee/mazunabeautybh" target="_blank" rel="noopener">Or just book the hour</a>
-      </div>
-    </div>
-    <div class="pile rv" id="pile" style="--d:.1s">
-      <div class="calm" id="calm">
-        <div>
-          <h3>Lighter <em>already.</em></h3>
-          <p>That took ten seconds. Now picture ninety minutes of it, with steam.</p>
-          <a class="btn btn-gold mag" href="https://linktr.ee/mazunabeautybh" target="_blank" rel="noopener">Claim your hour</a>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="wrap"><p class="next-hint"><i></i>Next: what 4:00 pm at Mazuna feels like</p></div>
-</section>
 
 <!-- AFTERNOON -->
 <section class="band afternoon" id="afternoon" aria-labelledby="a-h">
@@ -811,79 +761,6 @@ main,header.nav,footer{position:relative;z-index:1}
       host.appendChild(p); p.addEventListener('animationend', () => p.remove());
     }
   }
-
-  /* worries pile */
-  const pile = $('#pile'), countEl = $('#count'), label = $('#countLabel'), calm = $('#calm');
-  const worries = [
-    ['Inbox', '214 unread emails'], ['Today', 'School pickup at 2:30'], ['Work', 'That Thursday deadline'],
-    ['Home', 'Dinner for eight on Friday'], ['Body', 'Shoulders up by your ears'], ['Phone', 'The family group chat, again']
-  ];
-  let left = worries.length;
-  const layout = [[-34, -96, -5], [30, -52, 4], [-22, -8, -2], [36, 34, 5], [-30, 78, -4], [10, 4, 1.5]];
-  worries.forEach(([k, t], i) => {
-    const c = document.createElement('div'); c.className = 'worry'; c.tabIndex = 0;
-    c.setAttribute('role', 'button'); c.setAttribute('aria-label', `${t}. Press Enter to let it go.`);
-    c.innerHTML = `<small>${k}</small><p>${t}</p>`;
-    const [x, y, r] = layout[i];
-    c.dataset.x = x; c.dataset.y = y; c.dataset.r = r;
-    c.style.setProperty('--x', x + 'px'); c.style.setProperty('--y', y + 'px'); c.style.setProperty('--r', r + 'deg');
-    c.style.zIndex = i + 1;
-    pile.appendChild(c); attachDrag(c);
-  });
-  let z = 20;
-  function updateCount() {
-    countEl.textContent = left;
-    countEl.classList.remove('bump'); void countEl.offsetWidth; countEl.classList.add('bump');
-    label.textContent = left === 1 ? 'thing still on your mind' : left === 0 ? 'things on your mind. Nice.' : 'things still on your mind';
-    if (left === 0) setTimeout(() => calm.classList.add('show'), 350);
-  }
-  function dismiss(c, vx = 1, vy = -.4) {
-    if (c.classList.contains('gone')) return;
-    const r = c.getBoundingClientRect(), pr = pile.getBoundingClientRect();
-    burst(pile, r.left - pr.left + r.width / 2, r.top - pr.top + r.height / 2);
-    const m = Math.hypot(vx, vy) || 1;
-    const x = parseFloat(c.dataset.x) + vx / m * 700, y = parseFloat(c.dataset.y) + vy / m * 700;
-    c.classList.remove('drag'); c.classList.add('gone');
-    c.style.setProperty('--x', x + 'px'); c.style.setProperty('--y', y + 'px');
-    c.style.setProperty('--r', (vx > 0 ? 40 : -40) + 'deg');
-    setTimeout(() => c.remove(), 600);
-    left--; updateCount();
-  }
-  function attachDrag(c) {
-    let sx, sy, ox, oy, lx, ly, lt, vx = 0, vy = 0, id = null;
-    c.addEventListener('pointerdown', e => {
-      if (c.classList.contains('gone')) return;
-      id = e.pointerId; c.setPointerCapture(id); c.classList.add('drag'); c.style.zIndex = ++z;
-      sx = e.clientX; sy = e.clientY; ox = parseFloat(c.dataset.x); oy = parseFloat(c.dataset.y);
-      lx = sx; ly = sy; lt = performance.now(); vx = vy = 0;
-    });
-    c.addEventListener('pointermove', e => {
-      if (e.pointerId !== id) return;
-      const now = performance.now(), dt = Math.max(1, now - lt);
-      vx = (e.clientX - lx) / dt; vy = (e.clientY - ly) / dt; lx = e.clientX; ly = e.clientY; lt = now;
-      const dx = e.clientX - sx, dy = e.clientY - sy;
-      c.style.setProperty('--x', ox + dx + 'px'); c.style.setProperty('--y', oy + dy + 'px');
-      c.style.setProperty('--r', (parseFloat(c.dataset.r) + dx * .06) + 'deg');
-    });
-    const end = e => {
-      if (e.pointerId !== id) return; id = null;
-      const dx = e.clientX - sx, dy = e.clientY - sy, speed = Math.hypot(vx, vy);
-      const pr = pile.getBoundingClientRect();
-      const out = Math.abs(dx) > pr.width * .32 || Math.abs(dy) > pr.height * .34 || speed > .7;
-      c.dataset.x = ox + dx; c.dataset.y = oy + dy;
-      if (out) dismiss(c, speed > .7 ? vx : dx, speed > .7 ? vy : dy);
-      else {
-        c.classList.remove('drag');
-        c.dataset.x = ox; c.dataset.y = oy;
-        c.style.setProperty('--x', ox + 'px'); c.style.setProperty('--y', oy + 'px'); c.style.setProperty('--r', c.dataset.r + 'deg');
-      }
-    };
-    c.addEventListener('pointerup', end); c.addEventListener('pointercancel', end);
-    c.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); dismiss(c, Math.random() > .5 ? 1 : -1, -.3); } });
-  }
-  $('#clearAll').addEventListener('click', () => {
-    $$('.worry:not(.gone)', pile).forEach((c, i) => setTimeout(() => dismiss(c, i % 2 ? 1 : -1, -.5 + Math.random() * .4), i * 120));
-  });
 
   /* afternoon timeline */
   const scenes = $$('#arch .scene'), steps = $$('.step');
