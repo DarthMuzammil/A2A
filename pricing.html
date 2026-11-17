@@ -1,0 +1,326 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Saathi Pricing</title>
+<meta name="description" content="Saathi pricing in Indian rupees: seats for your reps and AI credit packs for your AI teammates.">
+<style>
+.ph{position:relative;padding-top:72px;text-align:center;background:linear-gradient(180deg,#fff 0%,#fff 38%,#ffd8b0 56%,#ff8a3d 66%,#c2410c 74%,#3b130c 86%,var(--dark) 94%)}
+.ph h1{font-size:clamp(36px,5vw,60px)}
+.ph .sub{color:var(--ink-2);margin-top:20px;font-size:17px}
+.tog{display:inline-flex;align-items:center;gap:4px;margin-top:28px;padding:4px;border-radius:999px;background:var(--soft);border:1px solid var(--line);position:relative}
+.tog button{position:relative;z-index:1;height:36px;padding:0 16px;border-radius:999px;font-size:14px;font-weight:500;color:var(--muted);display:flex;align-items:center;gap:8px;transition:color .3s}
+.tog button[aria-pressed="true"]{color:var(--ink)}
+.tog .knob{position:absolute;top:4px;bottom:4px;left:4px;border-radius:999px;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.08);transition:transform .45s var(--ease),width .45s var(--ease)}
+.tog .free{font-size:11.5px;font-weight:600;background:#0f3d2e;color:#d1fae5;padding:4px 9px;border-radius:999px;white-space:nowrap}
+.plan{position:relative;max-width:1120px;margin:44px auto 0;padding:10px;border-radius:26px;background:rgba(255,255,255,.35);border:1px solid rgba(255,255,255,.6);backdrop-filter:blur(8px);text-align:left}
+.plan-in{display:grid;grid-template-columns:1fr 1fr;background:#fff;border-radius:18px;box-shadow:0 30px 60px -30px rgba(80,20,0,.4)}
+.half{padding:30px}
+.half+.half{border-left:1px solid var(--line)}
+.pr{display:flex;align-items:center;gap:18px}
+.prod{width:96px;height:96px;border-radius:18px;border:1px solid var(--line);display:grid;place-items:center;flex:none;background:linear-gradient(180deg,#fff,#f7f7f8);box-shadow:0 10px 20px -14px rgba(0,0,0,.3)}
+.prod svg{width:60px;height:60px}
+.lbl{display:inline-block;font-size:13px;font-weight:600;padding:5px 12px;border-radius:999px;background:var(--soft)}
+.amt{display:flex;align-items:baseline;flex-wrap:wrap;gap:4px 10px;margin-top:10px}
+.amt b{font:600 46px/1 var(--f-head);letter-spacing:-.03em;font-variant-numeric:tabular-nums}
+.amt span{color:var(--ink-2);font-size:15px}
+.amt s{color:var(--muted);font-size:15px;width:100%;order:-1;display:none}
+.amt .save{font-size:12px;font-weight:600;color:var(--ok);background:#e7f6ed;padding:3px 8px;border-radius:999px;display:none}
+.annual .amt s,.annual .amt .save{display:inline-block}
+.amt b.flip{animation:flip .45s var(--ease)}
+@keyframes flip{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.half p{color:var(--ink-2);margin-top:20px;font-size:14.5px}
+.half .btn{margin-top:22px}
+.half .ghost-link{display:inline-flex;margin-top:22px;font-size:14px;font-weight:600;border-bottom:1px solid var(--ink);padding-bottom:2px}
+.gst{color:rgba(255,255,255,.75);font-size:13px;margin-top:22px}
+.more{display:flex;justify-content:center;padding-block:26px 34px}
+.more button{display:flex;align-items:center;gap:10px;color:#fff;font-weight:600;font-size:15px}
+.more button i{width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.15);display:grid;place-items:center;transition:transform .4s var(--ease);font-style:normal}
+.more button[aria-expanded="true"] i{transform:rotate(180deg)}
+.details{background:var(--dark);color:#fff;display:grid;grid-template-rows:0fr;transition:grid-template-rows .7s var(--ease)}
+.details.open{grid-template-rows:1fr}
+.details>div{overflow:hidden}
+.dgrid{display:grid;grid-template-columns:1fr 1fr;gap:20px;padding-block:20px 80px}
+.box{border:1px solid var(--dark-line);border-radius:18px;padding:28px;background:var(--dark-2)}
+.box h3{font-size:22px}
+.box>p{color:var(--dark-muted);margin-top:10px;font-size:14.5px}
+.li{display:flex;gap:12px;margin-top:20px}
+.li i{width:30px;height:30px;border-radius:8px;background:#2b2b2e;display:grid;place-items:center;flex:none;color:#fff}
+.li i svg{width:15px;height:15px}
+.li b{display:block;font-size:14.5px;font-weight:600}
+.li span{color:var(--dark-muted);font-size:13.5px}
+.coworkers{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:20px}
+.cw{border:1px solid var(--dark-line);border-radius:12px;padding:14px;background:#19191b}
+.cw .t{display:flex;align-items:center;gap:8px;font-weight:600;font-size:14px}
+.cw .t small{font-weight:400;color:var(--dark-muted)}
+.cw p{color:var(--dark-muted);font-size:12.5px;margin-top:8px}
+
+.faq{padding-block:110px}
+.faq .wrap{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:56px;align-items:start;max-width:1120px}
+.faq h2{font-size:clamp(30px,3.6vw,42px)}
+.chatcard{margin-top:40px;border:1px solid var(--line);border-radius:18px;padding:22px;max-width:300px;box-shadow:0 20px 40px -30px rgba(0,0,0,.25)}
+.chatcard small{font-size:11px;font-weight:600;letter-spacing:.1em;color:var(--muted)}
+.chatcard .av{width:64px;height:64px;font-size:20px;margin-top:14px}
+.chatcard h3{font-size:20px;margin-top:16px}
+.chatcard p{color:var(--ink-2);font-size:14px;margin-top:8px}
+.chatcard .btn{margin-top:18px}
+.qs{display:flex;flex-direction:column;gap:12px}
+.q{border-radius:14px;background:var(--cream);border:1px solid transparent;transition:background .3s,border-color .3s,box-shadow .3s}
+.q.open{background:#fff;border-color:var(--line);box-shadow:0 14px 30px -24px rgba(0,0,0,.35)}
+.q button{width:100%;display:flex;justify-content:space-between;align-items:center;gap:16px;padding:18px 20px;text-align:left;font-weight:600;font-size:15.5px}
+.q button i{width:20px;height:20px;position:relative;flex:none;transition:transform .4s var(--ease)}
+.q button i::before,.q button i::after{content:"";position:absolute;left:50%;top:50%;width:12px;height:1.6px;background:var(--ink);transform:translate(-50%,-50%)}
+.q button i::after{transform:translate(-50%,-50%) rotate(90deg)}
+.q.open button i{transform:rotate(45deg)}
+.q .a{display:grid;grid-template-rows:0fr;transition:grid-template-rows .5s var(--ease)}
+.q.open .a{grid-template-rows:1fr}
+.q .a p{overflow:hidden;padding:0 20px;color:var(--ink-2);font-size:14.5px}
+.q.open .a p{padding-bottom:18px}
+
+.demo{padding-bottom:110px}
+.demo .inner{position:relative;overflow:hidden;max-width:1120px;margin:0 auto;border-radius:24px;background:var(--dark);color:#fff;padding:48px;display:grid;grid-template-columns:1fr 1fr;gap:40px;align-items:center}
+.demo .inner::after{content:"";position:absolute;right:-120px;bottom:-140px;width:520px;height:380px;background:repeating-linear-gradient(90deg,#ff5a36 0 2px,transparent 2px 9px);transform:rotate(-30deg) skewX(-20deg);-webkit-mask:radial-gradient(closest-side,#000 25%,transparent);mask:radial-gradient(closest-side,#000 25%,transparent);opacity:.85;animation:drift 10s ease-in-out infinite alternate}
+@keyframes drift{to{translate:-50px 20px}}
+.demo h2{font-size:clamp(28px,3.4vw,40px)}
+.demo p{color:var(--dark-muted);margin-top:14px}
+.demo form{position:relative;z-index:1;display:grid;gap:10px}
+.demo label{font-size:12.5px;color:var(--dark-muted)}
+.demo input,.demo select{width:100%;height:46px;border-radius:12px;border:1px solid var(--dark-line);background:#1f1f21;color:#fff;padding:0 14px;font:inherit;font-size:15px}
+.demo .row2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.demo .btn{margin-top:6px;justify-self:start}
+.demo .ok{font-size:14px;color:#86efac;min-height:1.4em}
+
+@media (max-width:860px){
+  .plan-in{grid-template-columns:1fr}
+  .half+.half{border-left:0;border-top:1px solid var(--line)}
+  .half{padding:22px}
+  .prod{width:72px;height:72px}.prod svg{width:44px;height:44px}
+  .amt b{font-size:38px}
+  .dgrid,.faq .wrap,.demo .inner{grid-template-columns:1fr}
+  .coworkers{grid-template-columns:1fr}
+  .demo .inner{padding:28px}
+  .demo .row2{grid-template-columns:1fr}
+}
+</style>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="theme-color" content="#ffffff">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Onest:wght@500;600;700&display=swap">
+<link rel="stylesheet" href="assets/site.css">
+</head>
+<body>
+<a class="skip" href="#main" style="position:absolute;left:-999px">Skip to main content</a>
+<div class="announce">
+  <div class="wrap">
+    <span class="dot"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1l1.8 4.6L14.5 6 11 9.2l1 4.8L8 11.5 4 14l1-4.8L1.5 6l4.7-.4z"/></svg></span>
+    <a href="index.html#flow">New: Ask Saathi now answers in Hindi and English <i>→</i></a>
+    <button class="x" type="button" aria-label="Dismiss announcement">×</button>
+  </div>
+</div>
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="index.html" aria-label="Saathi home">
+      <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="4"><circle cx="12" cy="16" r="8"/><circle cx="20" cy="16" r="8"/></svg>Saathi
+    </a>
+    <nav class="nav-links" aria-label="Main">
+      <a href="index.html">Product</a>
+      <a href="pricing.html" aria-current="page">Pricing</a>
+      <a href="#about">About</a>
+      <a href="#blog">Blog</a>
+    </nav>
+    <a class="btn btn-dark btn-sm" href="pricing.html#demo">Book a demo<span class="arr"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 11l6-6M6 5h5v5"/></svg></span></a>
+    <button class="burger" type="button" aria-label="Open menu" aria-expanded="false"><span></span></button>
+  </div>
+</header>
+<div class="mnav">
+  <a href="index.html">Product</a><a href="pricing.html">Pricing</a><a href="#about">About</a><a href="#blog">Blog</a>
+  <a class="btn btn-dark" href="pricing.html#demo">Book a demo<span class="arr"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 11l6-6M6 5h5v5"/></svg></span></a>
+</div>
+
+<main id="main">
+<section class="ph">
+  <div class="wrap">
+    <h1 class="rv">One plan for your whole sales team.</h1>
+    <p class="sub rv" style="--d:.06s">Seats for your reps. Credit packs for the work your AI teammates do.</p>
+    <div class="tog rv" style="--d:.1s" role="group" aria-label="Billing period">
+      <span class="knob" id="knob"></span>
+      <button type="button" id="bMonthly" aria-pressed="true">Monthly</button>
+      <button type="button" id="bAnnual" aria-pressed="false">Annual <span class="free">🎉 2 months free</span></button>
+    </div>
+    <div class="plan rv" style="--d:.15s" id="plan">
+      <div class="plan-in">
+        <div class="half">
+          <div class="pr">
+            <span class="prod"><svg viewBox="0 0 64 64" fill="none"><path d="M20 14h24a4 4 0 0 1 4 4v14H16V18a4 4 0 0 1 4-4z" fill="#f2a7a0"/><path d="M14 32h36a3 3 0 0 1 3 3v3H11v-3a3 3 0 0 1 3-3z" fill="#e8452c"/><path d="M32 38v12M22 56l10-6 10 6M32 50v6" stroke="#9a9ca3" stroke-width="2.5" stroke-linecap="round"/><path d="M12 30v-6M52 30v-6" stroke="#9a9ca3" stroke-width="2.5" stroke-linecap="round"/></svg></span>
+            <div>
+              <span class="lbl">Seats</span>
+              <div class="amt"><s data-a="₹51,588">₹51,588</s><b data-m="₹4,299" data-a="₹42,990">₹4,299</b><span data-m="per seat, per month" data-a="per seat, per year">per seat, per month</span><em class="save">Save ₹8,598</em></div>
+            </div>
+          </div>
+          <p>For every rep and manager who works leads and deals.</p>
+          <a class="btn btn-dark btn-sm" href="#demo">Book a demo<span class="arr"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 11l6-6M6 5h5v5"/></svg></span></a>
+        </div>
+        <div class="half">
+          <div class="pr">
+            <span class="prod"><svg viewBox="0 0 64 64" fill="none"><rect x="20" y="12" width="24" height="44" rx="6" fill="#f6c3bc"/><rect x="27" y="7" width="10" height="6" rx="2" fill="#9a9ca3"/><rect x="20" y="30" width="24" height="26" rx="6" fill="#e8452c"/><path d="M34 34l-6 9h5l-2 8 7-10h-5z" fill="#fff"/></svg></span>
+            <div>
+              <span class="lbl">AI credits</span>
+              <div class="amt"><s data-a="₹31,188">₹31,188</s><b data-m="₹2,599" data-a="₹25,990">₹2,599</b><span data-m="per pack, per month" data-a="per pack, per year">per pack, per month</span><em class="save">Save ₹5,198</em></div>
+            </div>
+          </div>
+          <p>For the AI teammates who help you move deals forward.</p>
+          <a class="ghost-link" href="#learn" id="learnLink">What a pack covers</a>
+        </div>
+      </div>
+    </div>
+    <p class="gst">All prices in Indian rupees and exclude 18% GST.</p>
+    <div class="more"><button type="button" id="moreBtn" aria-expanded="false" aria-controls="details">Learn more <i>⌄</i></button></div>
+  </div>
+</section>
+
+<section class="details" id="details" data-dark>
+  <div><div class="wrap dgrid" id="learn">
+    <div class="box">
+      <h3>What a seat covers</h3>
+      <p>Deal context gathered from every source and kept in one place.</p>
+      <div class="li"><i><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="2" y="3.5" width="12" height="9" rx="1.5"/><path d="M2.5 4.5L8 9l5.5-4.5"/></svg></i><div><b>Full context capture</b><span>From email, calendar, meetings and notes</span></div></div>
+      <div class="li"><i><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M1.5 8s2.5-4.5 6.5-4.5S14.5 8 14.5 8 12 12.5 8 12.5 1.5 8 1.5 8z"/><circle cx="8" cy="8" r="2"/></svg></i><div><b>Free viewer seats</b><span>Anyone in the company can see the pipeline at no cost</span></div></div>
+      <div class="li"><i><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M2 4h8M2 8h12M2 12h6M12 2l2 2-2 2"/></svg></i><div><b>Lead workflows</b><span>Lead routing and round-robin assignment</span></div></div>
+      <div class="li"><i><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><path d="M5 4L1.5 8 5 12M11 4l3.5 4L11 12"/></svg></i><div><b>Many ways into your CRM</b><span>Roles, free viewer seats, API and MCP access</span></div></div>
+      <div class="li"><i><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="8" r="6"/><path d="M6 6.2a2 2 0 1 1 2.6 1.9c-.4.2-.6.5-.6.9v.5M8 11.5v.1" stroke-linecap="round"/></svg></i><div><b>Onboarding and support</b><span>Our team in Bengaluru helps you get set up, in IST hours</span></div></div>
+    </div>
+    <div class="box">
+      <h3>What an AI credit pack powers</h3>
+      <p>Credits pay for lead enrichment and the work your AI teammates do. One pack enriches 100 new contacts and works on 20 live deals a month, shared across your whole team.</p>
+      <div class="li"><i><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><circle cx="8" cy="5.5" r="2.8"/><path d="M2.5 14c.8-2.8 3-4 5.5-4s4.7 1.2 5.5 4"/></svg></i><div><b>AI enrichment</b><span>Records filled in and kept current</span></div></div>
+      <div class="li"><i><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M2.5 3.5h11v7h-6l-3 2.5v-2.5h-2z" stroke-linejoin="round"/></svg></i><div><b>Ask Saathi</b><span>Any question about your deals, answered in plain English or Hindi</span></div></div>
+      <div class="coworkers">
+        <div class="cw"><div class="t"><span class="av riya">RI</span>Riya <small>Research</small></div><p>Researches new leads and accounts and preps briefs before your meetings.</p></div>
+        <div class="cw"><div class="t"><span class="av sameer">SK</span>Sameer <small>Sales assistant</small></div><p>Drafts follow-ups after calls and emails and suggests the next step on each deal.</p></div>
+        <div class="cw"><div class="t"><span class="av rohan">RO</span>Rohan <small>RevOps</small></div><p>Scores deals, flags the risky ones and reports on pipeline health.</p></div>
+        <div class="cw"><div class="t"><span class="av anya">AN</span>Anya <small>Setup</small></div><p>Changes CRM settings, lead routing and workflows when you ask.</p></div>
+      </div>
+    </div>
+  </div></div>
+</section>
+
+<section class="faq">
+  <div class="wrap">
+    <div>
+      <h2 class="rv">Common pricing questions</h2>
+      <div class="chatcard rv" style="--d:.1s">
+        <small>STILL DECIDING?</small>
+        <span class="av p3">SL</span>
+        <h3>Book a quick chat</h3>
+        <p>Ask us anything about Saathi and leave with a clear answer.</p>
+        <a class="btn btn-dark btn-sm" href="#demo">Book a demo<span class="arr"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 11l6-6M6 5h5v5"/></svg></span></a>
+      </div>
+    </div>
+    <div class="qs">
+      <div class="q open rv"><button type="button" aria-expanded="true">What counts as a seat?<i></i></button><div class="a"><p>Anyone who has activated their Saathi account. Pending invitations are not billed. Seats are for reps and managers who work leads and deals.</p></div></div>
+      <div class="q rv"><button type="button" aria-expanded="false">How do AI credit packs work?<i></i></button><div class="a"><p>Credits pay for AI enrichment, Ask Saathi and your four AI teammates: Riya, Sameer, Rohan and Anya. A pack costs ₹2,599 a month and is shared by your whole team. Unused credits expire at the end of each billing cycle.</p></div></div>
+      <div class="q rv"><button type="button" aria-expanded="false">How many packs do we need?<i></i></button><div class="a"><p>One pack enriches 100 new contacts and works on 20 live deals a month. Start there and add packs as your usage grows.</p></div></div>
+      <div class="q rv"><button type="button" aria-expanded="false">Are the AI teammates priced separately?<i></i></button><div class="a"><p>No. Riya, Sameer, Rohan and Anya all use the same shared credits. API and MCP access come with every seat.</p></div></div>
+      <div class="q rv"><button type="button" aria-expanded="false">Who is a viewer?<i></i></button><div class="a"><p>Anyone who only needs to see the pipeline. Viewer seats are free.</p></div></div>
+      <div class="q rv"><button type="button" aria-expanded="false">Is there a free trial? Do we need a card?<i></i></button><div class="a"><p>Yes. Try Saathi free for 14 days with no card. We set up the trial with you, and you can add seats while it runs. Nothing is charged until the trial ends. Add a card or UPI mandate before then and your subscription starts automatically.</p></div></div>
+      <div class="q rv"><button type="button" aria-expanded="false">Do you send GST invoices?<i></i></button><div class="a"><p>Yes. Add your GSTIN in billing settings and every invoice includes it, so you can claim input tax credit.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section class="demo" id="demo">
+  <div class="wrap">
+    <div class="inner rv">
+      <div>
+        <h2>See your AI teammates in action</h2>
+        <p>Tell us a little about your team and we will set up a 30-minute walkthrough on your own pipeline.</p>
+      </div>
+      <form id="demoForm" novalidate>
+        <div class="row2">
+          <div><label for="dName">Name</label><input id="dName" name="name" autocomplete="name" required></div>
+          <div><label for="dEmail">Work email</label><input id="dEmail" name="email" type="email" autocomplete="email" required></div>
+        </div>
+        <div class="row2">
+          <div><label for="dCo">Company</label><input id="dCo" name="company" autocomplete="organization"></div>
+          <div><label for="dSize">Sales team size</label><select id="dSize" name="size"><option>1–5 reps</option><option>6–20 reps</option><option>21–50 reps</option><option>50+ reps</option></select></div>
+        </div>
+        <button class="btn btn-light" type="submit">Request a demo<span class="arr"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 11l6-6M6 5h5v5"/></svg></span></button>
+        <p class="ok" id="ok" aria-live="polite"></p>
+      </form>
+    </div>
+  </div>
+</section>
+</main>
+<footer class="foot" data-dark>
+  <div class="wrap">
+    <div class="top">
+      <div class="rv">
+        <h2>Meet your<br>AI teammates<br>at work</h2>
+        <p>Saathi is the AI-native CRM: one memory of every deal, and AI teammates who do the busywork for you.</p>
+        <a class="btn btn-light" href="pricing.html#demo">Book a demo<span class="arr"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 11l6-6M6 5h5v5"/></svg></span></a>
+      </div>
+      <div class="rv" style="--d:.1s">
+        <div class="cols">
+          <div><b>Company</b><a href="index.html">Product</a><a href="pricing.html">Pricing</a><a href="#about">About</a><a href="#blog">Blog</a><a href="#careers">Careers</a><a href="#contact">Contact</a><a href="#api">API docs</a><a href="#mcp">MCP docs</a></div>
+          <div><b>Legal</b><a href="#terms">Terms of service</a><a href="#privacy">Privacy policy</a><a href="#cookies">Cookie settings</a></div>
+        </div>
+        <div class="meta">
+          <span><i class="badge"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 1.5l5 2v4c0 3.2-2.2 5.6-5 7-2.8-1.4-5-3.8-5-7v-4z"/><path d="M5.5 8l1.8 1.8L10.8 6.3"/></svg></i>ISO 27001 aligned · Data hosted in India</span>
+          <span>© 2026 Saathi Labs (demo site)</span>
+        </div>
+      </div>
+    </div>
+    <div class="wordmark" aria-hidden="true">
+      <svg class="wm" viewBox="0 0 1200 230" fill="none">
+        <g stroke="#3a3a3d" stroke-width="3">
+          <circle cx="78" cy="115" r="70"/><circle cx="148" cy="115" r="70"/>
+        </g>
+        <text x="250" y="190" font-family="Onest, Inter, Arial, sans-serif" font-weight="600" font-size="230" letter-spacing="-10" fill="#1d1d1f" stroke="#3a3a3d" stroke-width="3">Saathi</text>
+      </svg>
+      <span class="cursor" style="left:18%;top:5%;--t:16s;--x1:60px;--y1:30px;--x2:120px;--y2:-10px;--x3:40px;--y3:-30px"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M2 1l12 6-5 1.5L7 14z"/></svg><b>Anya</b></span>
+      <span class="cursor" style="left:42%;top:52%;--t:13s;--dl:-4s;--x1:-70px;--y1:-40px;--x2:30px;--y2:-60px;--x3:80px;--y3:10px"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M2 1l12 6-5 1.5L7 14z"/></svg><b>Sameer</b></span>
+      <span class="cursor" style="left:60%;top:0%;--t:18s;--dl:-8s;--x1:-50px;--y1:60px;--x2:-120px;--y2:20px;--x3:-40px;--y3:-10px"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M2 1l12 6-5 1.5L7 14z"/></svg><b>Riya</b></span>
+      <span class="cursor" style="left:84%;top:40%;--t:15s;--dl:-2s;--x1:-40px;--y1:-50px;--x2:-90px;--y2:10px;--x3:-20px;--y3:30px"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M2 1l12 6-5 1.5L7 14z"/></svg><b>Rohan</b></span>
+    </div>
+  </div>
+</footer>
+
+<script src="assets/site.js"></script>
+<script>
+(() => {
+  const { $, $$ } = window.SA;
+  const bm = $('#bMonthly'), ba = $('#bAnnual'), knob = $('#knob'), plan = $('#plan');
+  function setKnob(b) { knob.style.width = b.offsetWidth + 'px'; knob.style.transform = `translateX(${b.offsetLeft - 4}px)`; }
+  function setMode(annual) {
+    bm.setAttribute('aria-pressed', !annual); ba.setAttribute('aria-pressed', annual);
+    setKnob(annual ? ba : bm); plan.classList.toggle('annual', annual);
+    $$('[data-m]', plan).forEach(el => { el.textContent = annual ? el.dataset.a : el.dataset.m; if (el.tagName === 'B') { el.classList.remove('flip'); void el.offsetWidth; el.classList.add('flip'); } });
+  }
+  bm.addEventListener('click', () => setMode(false)); ba.addEventListener('click', () => setMode(true));
+  requestAnimationFrame(() => setKnob(bm)); addEventListener('resize', () => setKnob(ba.getAttribute('aria-pressed') === 'true' ? ba : bm));
+  document.fonts?.ready.then(() => setKnob(ba.getAttribute('aria-pressed') === 'true' ? ba : bm));
+
+  const more = $('#moreBtn'), det = $('#details');
+  const openDet = (o) => { det.classList.toggle('open', o); more.setAttribute('aria-expanded', o); };
+  more.addEventListener('click', () => openDet(!det.classList.contains('open')));
+  $('#learnLink').addEventListener('click', e => { e.preventDefault(); openDet(true); setTimeout(() => det.scrollIntoView({ behavior: 'smooth', block: 'start' }), 150); });
+
+  $$('.q').forEach(q => $('button', q).addEventListener('click', () => {
+    const open = !q.classList.contains('open');
+    $$('.q').forEach(o => { o.classList.remove('open'); $('button', o).setAttribute('aria-expanded', 'false'); });
+    if (open) { q.classList.add('open'); $('button', q).setAttribute('aria-expanded', 'true'); }
+  }));
+
+  $('#demoForm').addEventListener('submit', e => {
+    e.preventDefault();
+    const n = $('#dName'), m = $('#dEmail'), ok = $('#ok');
+    if (!n.value.trim() || !/^\S+@\S+\.\S+$/.test(m.value)) { ok.style.color = '#fca5a5'; ok.textContent = 'Add your name and a valid work email to continue.'; return; }
+    ok.style.color = ''; ok.textContent = `Thanks, ${n.value.trim().split(' ')[0]}. This is a demo site, so no request was sent.`;
+  });
+})();
+</script>
+</body>
+</html>

@@ -23,12 +23,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
-        with:
-          enablement: true
       - name: Assemble site
         run: |
           mkdir -p _site
-          cp index.html .nojekyll _site/
+          cp index.html pricing.html .nojekyll _site/
           cp -r assets _site/
       - uses: actions/upload-pages-artifact@v3
         with:

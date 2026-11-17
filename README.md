@@ -1,10 +1,10 @@
-# Mazuna Beauty Salon
+# Saathi CRM (demo site)
 
-Landing page for Mazuna Beauty Salon, Tubli, Bahrain: Moroccan bath, body massage and spa, facials and hair.
+Marketing site for Saathi, a fictional AI-native CRM. Two pages: product (`index.html`) and pricing (`pricing.html`), with prices in Indian rupees.
 
-- `page.html` is the source (head section, then `<!--/HEAD-->`, then the page body).
-- `python3 build.py` writes `index.html`, the standalone site.
-- `assets/logo.png` is the logo.
+- Edit the sources in `src/`: `index.html` and `pricing.html` (page head, then `<!--/HEAD-->`, then the body), plus the shared `header.html` and `footer.html`.
+- Shared styles and scripts live in `assets/site.css` and `assets/site.js`.
+- Run `python3 build.py` to regenerate `index.html` and `pricing.html`.
 - Pushing to `main` deploys to GitHub Pages through `.github/workflows/pages.yml`.
 
-No build tools or dependencies. Open `index.html` in a browser to preview.
+No dependencies or build tools beyond Python 3.
